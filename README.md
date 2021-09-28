@@ -1,0 +1,1 @@
+# foodtrucks-django-react-native
