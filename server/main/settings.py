@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'event',
     'foodtruck',
     'review',
+    'social',
     'user',
 ]
 
