@@ -24,6 +24,6 @@ class Like(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
     emoji = models.ForeignKey(
-        Emoji, related_name='emoji_likes', on_delete=models.CASCADE)
+        Emoji, related_name='likes', on_delete=models.CASCADE)
     product = models.ForeignKey(
-        'foodtruck.Product', related_name='product_likes', on_delete=models.CASCADE)
+        'foodtruck.Product', related_name='likes', on_delete=models.CASCADE)
