@@ -1,6 +1,9 @@
 from rest_framework import serializers
 
+from server.event.models import Event
+
 from .models import Product, Truck, TruckImage
+from event.serializers import EventSerializer
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -49,10 +52,10 @@ class TruckSerializer(serializers.ModelSerializer):
     """
     products = ProductSerializer(many=True, read_only=True)
     images = TruckImageSerializer(many=True, read_only=True)
-    # TO DO: Add in events fields
+    events = EventSerializer(many=True, read_only=True)
 
     class Meta:
         model = Truck
         lookup_field = 'slug'
         fields = ('uuid', 'name', 'slug', 'info', 'phone_number',
-                  'email', 'website', 'products', 'images',)
+                  'email', 'website', 'products', 'images', 'events',)
