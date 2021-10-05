@@ -1,7 +1,5 @@
 from rest_framework import serializers
 
-from server.event.models import Event
-
 from .models import Product, Truck, TruckImage
 from event.serializers import EventSerializer
 
