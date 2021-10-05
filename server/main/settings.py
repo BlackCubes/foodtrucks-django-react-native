@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Installed Apps
+    'rest_framework',
     'phonenumber_field',
     # My Apps
     'event',
