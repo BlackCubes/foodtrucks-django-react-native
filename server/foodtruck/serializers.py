@@ -23,7 +23,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         lookup_field = 'slug'
         fields = ('uuid', 'name', 'slug', 'info', 'image',
-                  'price', 'quantity', 'is_available', 'truck', 'likes',)
+                  'price', 'quantity', 'is_available', 'truck', 'likes', 'reviews',)
 
 
 class TruckImageSerializer(serializers.ModelSerializer):
