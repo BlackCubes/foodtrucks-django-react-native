@@ -24,19 +24,19 @@ class LikeSerializer(serializers.ModelSerializer):
         fields = ('uuid', 'like', 'emoji', 'product',)
 
     def create(self, validated_data):
-        like_uuid = self.initial_data['uuid'] if 'uuid' in self.initial_data else None
-        like_emoji = self.initial_data['emoji'] if 'emoji' in self.initial_data else None
-        like_product = self.initial_data['product'] if 'product' in self.initial_data else None
+        incoming_uuid = self.initial_data['uuid'] if 'uuid' in self.initial_data else None
+        incoming_emoji = self.initial_data['emoji'] if 'emoji' in self.initial_data else None
+        incoming_product = self.initial_data['product'] if 'product' in self.initial_data else None
 
         # If the property exists from the data, proceed.
-        if like_uuid is not None:
-            like_exist = Like.objects.filter(uuid=like_uuid).first()
+        if incoming_uuid is not None:
+            like_exist = Like.objects.filter(uuid=incoming_uuid).first()
 
             # If the selected uuid exists in the Like model, proceed.
             if like_exist is not None:
                 # If the selected model fields matches both the incoming product and emoji,
                 # then increment.
-                if like_exist.product.slug == like_product and like_exist.emoji.emoji == like_emoji:
+                if like_exist.product.slug == incoming_product and like_exist.emoji.emoji == incoming_emoji:
                     like_exist.like += validated_data['like']
                     like_exist.save()
                     return like_exist
@@ -49,7 +49,7 @@ class LikeSerializer(serializers.ModelSerializer):
 
                     if len(likes_available):
                         for like_dict in likes_available:
-                            if like_dict.product.slug == like_product and like_dict.emoji.emoji == like_emoji:
+                            if like_dict.product.slug == incoming_product and like_dict.emoji.emoji == incoming_emoji:
                                 like_exist = like_dict
 
                     # If the dictionary is not empty, proceed.
@@ -59,13 +59,13 @@ class LikeSerializer(serializers.ModelSerializer):
                         return like_exist
 
         # If the incoming uuid was not provided, check on the incoming emoji and product.
-        elif like_emoji is not None and like_product is not None:
+        elif incoming_emoji is not None and incoming_product is not None:
             likes_available = Like.objects.all()
             like_exist = {}
 
             if len(likes_available):
                 for like_dict in likes_available:
-                    if like_dict.product.slug == like_product and like_dict.emoji.emoji == like_emoji:
+                    if like_dict.product.slug == incoming_product and like_dict.emoji.emoji == incoming_emoji:
                         like_exist = like_dict
 
             # If the dictionary is not empty, proceed.
