@@ -25,18 +25,56 @@ class LikeSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         like_uuid = self.initial_data['uuid'] if 'uuid' in self.initial_data else None
+        like_emoji = self.initial_data['emoji'] if 'emoji' in self.initial_data else None
+        like_product = self.initial_data['product'] if 'product' in self.initial_data else None
 
         # If the property exists from the data, proceed.
         if like_uuid is not None:
             like_exist = Like.objects.filter(uuid=like_uuid).first()
 
-            # If the selected uuid exists in the Like model, then increment.
-            # Otherwise, it does not exist, then create a new one.
+            # If the selected uuid exists in the Like model, proceed.
             if like_exist is not None:
+                # If the selected model fields matches both the incoming product and emoji,
+                # then increment.
+                if like_exist.product.slug == like_product and like_exist.emoji.emoji == like_emoji:
+                    like_exist.like += validated_data['like']
+                    like_exist.save()
+                    return like_exist
+
+                # Check if the incoming product and emoji still exists since the uuid
+                # is incorrect.
+                else:
+                    likes_available = Like.objects.all()
+                    like_exist = {}
+
+                    if len(likes_available):
+                        for like_dict in likes_available:
+                            if like_dict.product.slug == like_product and like_dict.emoji.emoji == like_emoji:
+                                like_exist = like_dict
+
+                    # If the dictionary is not empty, proceed.
+                    if like_exist:
+                        like_exist.like += validated_data['like']
+                        like_exist.save()
+                        return like_exist
+
+        # If the incoming uuid was not provided, check on the incoming emoji and product.
+        elif like_emoji is not None and like_product is not None:
+            likes_available = Like.objects.all()
+            like_exist = {}
+
+            if len(likes_available):
+                for like_dict in likes_available:
+                    if like_dict.product.slug == like_product and like_dict.emoji.emoji == like_emoji:
+                        like_exist = like_dict
+
+            # If the dictionary is not empty, proceed.
+            if like_exist:
                 like_exist.like += validated_data['like']
                 like_exist.save()
                 return like_exist
 
+        # In all failed cases, this is most likely a new creation.
         new_like = Like.objects.create(**validated_data)
         return new_like
 
