@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .models import Product, Truck, TruckImage
 from event.serializers import EventSerializer
+from review.serializers import ReviewSerializer
 from social.serializers import LikeSerializer
 
 
@@ -16,13 +17,13 @@ class ProductSerializer(serializers.ModelSerializer):
     """
     truck = serializers.CharField(source='truck.slug')
     likes = LikeSerializer(many=True, read_only=True)
-    # TO DO: Add in reviews fields
+    reviews = ReviewSerializer(many=True, read_only=True)
 
     class Meta:
         model = Product
         lookup_field = 'slug'
         fields = ('uuid', 'name', 'slug', 'info', 'image',
-                  'price', 'quantity', 'is_available', 'truck', 'likes',)
+                  'price', 'quantity', 'is_available', 'truck', 'likes', 'reviews',)
 
 
 class TruckImageSerializer(serializers.ModelSerializer):

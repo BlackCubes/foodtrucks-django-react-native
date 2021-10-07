@@ -21,5 +21,6 @@ urlpatterns = [
     # REST APIs
     path('api/v1/events/', include('event.urls')),
     path('api/v1/foodtrucks/', include('foodtruck.urls')),
+    path('api/v1/reviews/', include('review.urls')),
     path('api/v1/socials/', include('social.urls')),
 ]
