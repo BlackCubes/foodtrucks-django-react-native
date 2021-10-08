@@ -3,6 +3,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Provider } from "react-redux";
 
+import { TestComponent } from "./components";
 import { store } from "./old-redux/store";
 
 export default function App() {
@@ -10,6 +11,8 @@ export default function App() {
     <Provider store={store}>
       <View style={styles.container}>
         <Text>Open up App.js to start working on your app!</Text>
+
+        <TestComponent />
         <StatusBar style="auto" />
       </View>
     </Provider>
