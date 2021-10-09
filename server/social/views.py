@@ -29,11 +29,12 @@ class EmojiDetailAPIView(generics.RetrieveAPIView):
 
 
 # Like views:
-class LikeCreateAPIView(generics.CreateAPIView):
+class LikeListCreateAPIView(generics.ListCreateAPIView):
     """
-    API view to either create (or update from the custom method) from the Like model.
+    API view to either retrieve a list or create (or update from the custom method)
+    from the Like model.
 
-    Request Type: POST.
+    Request Type: GET and POST.
     """
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
