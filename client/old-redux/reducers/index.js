@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
 
+import foodtruckReducer from "./foodtruckReducer";
+
 const rootReducer = combineReducers({
-  foodtruck: {},
-  product: {},
+  foodtruck: foodtruckReducer,
+  // product: {},
 });
 
 export default rootReducer;
