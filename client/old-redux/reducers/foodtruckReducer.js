@@ -1,7 +1,7 @@
 import {
   GET_ALL_FOODTRUCKS,
   GET_ONE_FOODTRUCK,
-} from "../constants/foodtruckTypes";
+} from '../constants/foodtruckTypes';
 
 const INITIAL_STATE = {
   foodtrucks: [],

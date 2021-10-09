@@ -1,9 +1,9 @@
 import {
   GET_ALL_FOODTRUCKS,
   GET_ONE_FOODTRUCK,
-} from "../constants/foodtruckTypes";
-import { getAllFoodtrucks, getFoodtruck } from "../../api/foodtruckAPI";
-import { headers } from "../../utils";
+} from '../constants/foodtruckTypes';
+import { getAllFoodtrucks, getFoodtruck } from '../../api/foodtruckAPI';
+import { headers } from '../../utils';
 
 // GET ALL FOODTRUCKS
 const finishAllFoodtrucks = (foodtrucks) => ({
