@@ -1,9 +1,7 @@
 import axios from "axios";
 
-import { FOODTRUCK_SERVER_API } from "@env";
-
 const axiosInit = axios.create({
-  baseURL: `${FOODTRUCK_SERVER_API}/foodtrucks/`,
+  baseURL: `http://10.0.0.233:8000/api/v1/foodtrucks/`,
   responseType: "json",
 });
 
