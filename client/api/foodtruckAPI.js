@@ -14,7 +14,15 @@ export const getAllFoodtrucks = (headers) =>
         axiosInit
           .get("", headers)
           .then((res) => resolve(res.data))
-          .catch((err) => reject(err.response.data));
+          .catch((err) => {
+            if (err.response) {
+              reject(err.response.data);
+            } else if (err.request) {
+              reject(err.request);
+            } else {
+              reject(err.message);
+            }
+          });
       } catch (err) {
         reject("System error. Please try again later.");
       }
@@ -28,7 +36,15 @@ export const getFoodtruck = (slug, headers) =>
         axiosInit
           .get(`${slug}`, headers)
           .then((res) => resolve(res.data))
-          .catch((err) => reject(err.response.data));
+          .catch((err) => {
+            if (err.response) {
+              reject(err.response.data);
+            } else if (err.request) {
+              reject(err.request);
+            } else {
+              reject(err.message);
+            }
+          });
       } catch (err) {
         reject("System error. Please try again later.");
       }
