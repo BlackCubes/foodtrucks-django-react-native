@@ -15,9 +15,11 @@ const mapDispatchToProps = (dispatch) => ({
 const TestComponent = ({ commenceAllFoodtrucks, foodtrucks }) => {
   console.log("Foodtrucks: ", foodtrucks);
 
-  useEffect(() => commenceAllFoodtrucks(), []);
+  useEffect(() => {
+    commenceAllFoodtrucks();
+  }, []);
 
   return <Text>This is a test component</Text>;
 };
 
-export default TestComponent;
+export default connect(mapStateToProps, mapDispatchToProps)(TestComponent);
