@@ -1,6 +1,6 @@
 const headers = () => {
   const headersConfig = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
 
   return headersConfig;

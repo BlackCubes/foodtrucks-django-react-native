@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
 const axiosInit = axios.create({
   baseURL: `http://10.0.0.233:8000/api/v1/foodtrucks/`,
-  responseType: "json",
+  responseType: 'json',
 });
 
 export const getAllFoodtrucks = (headers) =>
@@ -10,7 +10,7 @@ export const getAllFoodtrucks = (headers) =>
     setTimeout(() => {
       try {
         axiosInit
-          .get("", headers)
+          .get('', headers)
           .then((res) => resolve(res.data))
           .catch((err) => {
             if (err.response) {
@@ -22,7 +22,7 @@ export const getAllFoodtrucks = (headers) =>
             }
           });
       } catch (err) {
-        reject("System error. Please try again later.");
+        reject('System error. Please try again later.');
       }
     }, 1000)
   );
@@ -44,7 +44,7 @@ export const getFoodtruck = (slug, headers) =>
             }
           });
       } catch (err) {
-        reject("System error. Please try again later.");
+        reject('System error. Please try again later.');
       }
     }, 1000)
   );

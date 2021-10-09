@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { Text } from "react-native";
-import { connect } from "react-redux";
+import React, { useEffect } from 'react';
+import { Text } from 'react-native';
+import { connect } from 'react-redux';
 
-import { allFoodtrucks } from "../../old-redux/actions/foodtruckActions";
+import { allFoodtrucks } from '../../old-redux/actions/foodtruckActions';
 
 const mapStateToProps = (state) => ({
   foodtrucks: state.foodtruck.foodtrucks,
@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const TestComponent = ({ commenceAllFoodtrucks, foodtrucks }) => {
-  console.log("Foodtrucks: ", foodtrucks);
+  console.log('Foodtrucks: ', foodtrucks);
 
   useEffect(() => {
     commenceAllFoodtrucks();
