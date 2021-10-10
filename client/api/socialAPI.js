@@ -27,7 +27,7 @@ export const getAllSocials = (headers) =>
     }, 1000)
   );
 
-export const createSocial = (emoji, product_slug, like) =>
+export const createSocial = (emoji, product_slug, like, headers) =>
   new Promise((resolve, reject) =>
     setTimeout(() => {
       try {
