@@ -14,12 +14,14 @@ export const allSocials = () => (dispatch) =>
     .catch((err) => console.error(err));
 
 // ADD SOCIAL
-const finishAddSocial = (uuid, like) => ({
+const finishAddSocial = (uuid, like, emoji, product) => ({
   type: ADD_SOCIAL,
-  payload: { uuid, like },
+  payload: { uuid, like, emoji, product },
 });
 
 export const addSocial = (emoji, product_slug, like) => (dispatch) =>
   createSocial(emoji, product_slug, like, headers())
-    .then((res) => dispatch(finishAddSocial(res.uuid, res.like)))
+    .then((res) =>
+      dispatch(finishAddSocial(res.uuid, res.like, res.emoji, res.product))
+    )
     .catch((err) => console.error(err));
