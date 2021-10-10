@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # My Apps
     'event',
     'foodtruck',
+    'product',
     'review',
     'social',
     'user',
