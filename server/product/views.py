@@ -1,7 +1,10 @@
-from rest_framework import generics
+from rest_framework import generics, viewsets
+from rest_framework.exceptions import NotFound
 
 from .models import Product
 from .serializers import ProductSerializer
+from social.models import Like
+from social.serializers import LikeSerializer
 
 
 class ProductListAPIView(generics.ListAPIView):
@@ -25,3 +28,27 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
     queryset = Product.objects.all().order_by('slug')
     lookup_field = 'slug'
     serializer_class = ProductSerializer
+
+
+class ProductLikesModelViewSet(viewsets.ModelViewSet):
+    """
+    Model viewset on the Like and Product models. Tries to retrieve all
+    likes based on the product's slug, if a GET request.
+
+    Actions: list and retrieve.
+
+    Request Like: GET.
+    """
+    queryset = Like.objects.all().select_related(
+        'product').select_related('emoji').order_by('product__slug')
+    serializer_class = LikeSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        product_slug = self.kwargs.get('product_slug')
+
+        try:
+            product = Product.objects.get(slug=product_slug)
+        except Product.DoesNotExist:
+            raise NotFound('A product with this slug does not exist.')
+
+        return self.queryset.filter(product=product)
