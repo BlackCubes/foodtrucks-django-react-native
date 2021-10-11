@@ -35,9 +35,9 @@ class ProductLikesModelViewSet(viewsets.ModelViewSet):
     Model viewset on the Like and Product models. Tries to retrieve all
     likes based on the product's slug, if a GET request.
 
-    Actions: list and retrieve.
+    Actions: list, create, retrieve, update, partial_update, destroy.
 
-    Request Like: GET.
+    Request Like: GET, POST, PATCH, PUT, DELETE.
     """
     queryset = Like.objects.all().select_related(
         'product').select_related('emoji').order_by('product__slug')
