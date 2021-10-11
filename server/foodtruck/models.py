@@ -16,6 +16,14 @@ def upload_truckimage_to(instance, filename):
     return f"images/truck/{instance.uuid}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
 
 
+def upload_product_to(instance, filename):
+    now = timezone.now()
+    base, extension = os.path.splitext(filename.lower())
+    milliseconds = now.microsecond // 1000
+
+    return f'images/product/{instance.uuid}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}'
+
+
 class Truck(models.Model):
     """
     Truck model with fields of uuid, name, slug, info, phone_number, email, website,
