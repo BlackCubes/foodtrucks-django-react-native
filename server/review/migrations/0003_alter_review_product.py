@@ -12,9 +12,15 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='review',
-            name='product',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='product.product'),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.AlterField(
+                    model_name='review',
+                    name='product',
+                    field=models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='product.product'),
+                ),
+            ],
+            database_operations=[],
         ),
     ]
