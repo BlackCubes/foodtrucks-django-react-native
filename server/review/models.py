@@ -14,6 +14,6 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
     product = models.ForeignKey(
-        'foodtruck.Product', related_name='reviews', on_delete=models.CASCADE)
+        'product.Product', related_name='reviews', on_delete=models.CASCADE)
     user = models.ForeignKey(
         'user.CustomUser', related_name='reviews', on_delete=models.CASCADE)

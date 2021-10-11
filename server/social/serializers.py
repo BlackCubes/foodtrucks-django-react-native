@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .models import Emoji, Like
-from foodtruck.models import Product
+from product.models import Product
 
 
 class LikeSerializer(serializers.ModelSerializer):

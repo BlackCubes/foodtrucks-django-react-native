@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .models import Review
-from foodtruck.models import Product
+from product.models import Product
 from user.models import CustomUser
 
 

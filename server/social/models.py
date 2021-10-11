@@ -26,4 +26,4 @@ class Like(models.Model):
     emoji = models.ForeignKey(
         Emoji, related_name='likes', on_delete=models.CASCADE)
     product = models.ForeignKey(
-        'foodtruck.Product', related_name='likes', on_delete=models.CASCADE)
+        'product.Product', related_name='likes', on_delete=models.CASCADE)
