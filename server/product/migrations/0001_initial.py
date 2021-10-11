@@ -15,21 +15,33 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Product',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, unique=True)),
-                ('name', models.CharField(max_length=182)),
-                ('slug', models.SlugField(blank=True, max_length=182, null=True)),
-                ('info', models.CharField(max_length=183)),
-                ('image', models.ImageField(upload_to=product.models.upload_to)),
-                ('price', models.FloatField()),
-                ('quantity', models.IntegerField(default=0)),
-                ('is_available', models.BooleanField(default=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True, null=True)),
-                ('updated_at', models.DateTimeField(auto_now=True, null=True)),
-                ('truck', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='products', to='foodtruck.truck')),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.CreateModel(
+                    name='Product',
+                    fields=[
+                        ('id', models.BigAutoField(auto_created=True,
+                         primary_key=True, serialize=False, verbose_name='ID')),
+                        ('uuid', models.UUIDField(
+                            default=uuid.uuid4, editable=False, unique=True)),
+                        ('name', models.CharField(max_length=182)),
+                        ('slug', models.SlugField(
+                            blank=True, max_length=182, null=True)),
+                        ('info', models.CharField(max_length=183)),
+                        ('image', models.ImageField(
+                            upload_to=product.models.upload_to)),
+                        ('price', models.FloatField()),
+                        ('quantity', models.IntegerField(default=0)),
+                        ('is_available', models.BooleanField(default=True)),
+                        ('created_at', models.DateTimeField(
+                            auto_now_add=True, null=True)),
+                        ('updated_at', models.DateTimeField(
+                            auto_now=True, null=True)),
+                        ('truck', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                         related_name='products', to='foodtruck.truck')),
+                    ],
+                ),
             ],
+            database_operations=[],
         ),
     ]
