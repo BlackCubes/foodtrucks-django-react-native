@@ -58,12 +58,12 @@ export const createSocial = (emoji, product_slug, like, headers) =>
     }, 1000)
   );
 
-export const getAllSocialsFromFoodtruck = (slug, headers) =>
+export const getAllSocialsFromFoodtruck = (foodtruck_slug, headers) =>
   new Promise((resolve, reject) =>
     setTimeout(() => {
       try {
         axiosInit('foodtrucks')
-          .get(`${slug}/socials`, headers)
+          .get(`${foodtruck_slug}/socials`, headers)
           .then((res) => resolve(res.data))
           .catch((err) => {
             if (err.response) {
@@ -80,12 +80,12 @@ export const getAllSocialsFromFoodtruck = (slug, headers) =>
     }, 1000)
   );
 
-export const getAllSocialsFromProduct = (slug, headers) =>
+export const getAllSocialsFromProduct = (product_slug, headers) =>
   new Promise((resolve, reject) =>
     setTimeout(() => {
       try {
         axiosInit('products')
-          .get(`${slug}/socials`, headers)
+          .get(`${product_slug}/socials`, headers)
           .then((res) => resolve(res.data))
           .catch((err) => {
             if (err.response) {
