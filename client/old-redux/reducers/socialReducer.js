@@ -5,6 +5,15 @@ import {
   GET_ALL_SOCIALS,
 } from '../constants/socialTypes';
 
+/**
+ * Checks to see if the given state's array has the UUID from the payload. If it
+ * does, then increment the 'like' integer with the payload, and return the
+ * state's array. If not, then insert the payload into the original state's array.
+ * @param {[]|[{uuid:String, like:Number, emoji:String, product:String}]} stateArray
+ * @param {{uuid:String, like:Number, emoji:String, product:String}} actionPayload
+ * @returns {[{uuid:String, like:Number, emoji:String, product:String}]} An array
+ * of objects.
+ */
 const newSocials = (stateArray, actionPayload) => {
   let uuidExists = false;
 
