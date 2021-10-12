@@ -33,6 +33,7 @@ const newSocials = (stateArray, actionPayload) => {
 };
 
 const INITIAL_STATE = {
+  socials: [],
   foodtruckSocials: [],
   productSocials: [],
 };
