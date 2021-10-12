@@ -37,7 +37,7 @@ export const addSocial = (emoji, product_slug, like) => (dispatch) =>
     .catch((err) => console.error(err));
 
 // GET ALL SOCIALS FROM FOODTRUCK
-export const finishAllSocialsFromFoodtruck = (foodtruckSocials) => ({
+const finishAllSocialsFromFoodtruck = (foodtruckSocials) => ({
   type: GET_ALL_FOODTRUCK_SOCIALS,
   payload: { foodtruckSocials },
 });
@@ -48,12 +48,12 @@ export const allSocialsFromFoodtruck = (foodtruck_slug) => (dispatch) =>
     .catch((err) => console.error(err));
 
 // GET ALL SOCIALS FROM PRODUCT
-export const finishAllSocialsFromProduct = (productSocials) => ({
+const finishAllSocialsFromProduct = (productSocials) => ({
   type: GET_ALL_PRODUCT_SOCIALS,
   payload: { productSocials },
 });
 
 export const allSocialsFromProduct = (product_slug) => (dispatch) =>
   getAllSocialsFromProduct(product_slug, headers())
-    .then((res) => dispatch())
+    .then((res) => dispatch(finishAllSocialsFromProduct(res)))
     .catch((err) => console.error(err));
