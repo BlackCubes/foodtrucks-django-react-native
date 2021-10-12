@@ -7,6 +7,8 @@ urlpatterns = [
     path('<slug:slug>', views.TruckDetailAPIView.as_view()),
     re_path(r'^(?P<truck_slug>[\w-]+)/products/?$',
             views.TruckProductsModelViewSet.as_view({'get': 'list'})),
+    re_path(r'^(?P<truck_slug>[\w-]+)/reviews/?$',
+            views.TruckReviewsModelViewSet.as_view({'get': 'list'})),
     re_path(r'^(?P<truck_slug>[\w-]+)/socials/?$',
             views.TruckLikesModelViewSet.as_view({'get': 'list'})),
 ]
