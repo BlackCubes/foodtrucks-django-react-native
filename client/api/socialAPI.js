@@ -79,3 +79,25 @@ export const getAllSocialsFromFoodtruck = (slug, headers) =>
       }
     }, 1000)
   );
+
+export const getAllSocialsFromProduct = (slug, headers) =>
+  new Promise((resolve, reject) =>
+    setTimeout(() => {
+      try {
+        axiosInit('products')
+          .get(`${slug}/socials`, headers)
+          .then((res) => resolve(res.data))
+          .catch((err) => {
+            if (err.response) {
+              reject(err.response.data);
+            } else if (err.request) {
+              reject(err.request);
+            } else {
+              reject(err.message);
+            }
+          });
+      } catch (err) {
+        reject('System error. Please try again later.');
+      }
+    }, 1000)
+  );
