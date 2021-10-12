@@ -24,5 +24,31 @@ const finishOneFoodtruck = (foodtruck) => ({
 
 export const oneFoodtruck = (slug) => (dispatch) =>
   getFoodtruck(slug, headers())
-    .then((res) => dispatch(finishOneFoodtruck(res)))
+    .then((res) => {
+      const foodtruckData = {
+        uuid: res.uuid,
+        name: res.name,
+        slug: res.slug,
+        info: res.info,
+        phone_number: res.phone_number,
+        email: res.email,
+        website: res.website,
+        images: res.images,
+        events: res.events,
+      };
+
+      let foodtruckSocials = [];
+
+      if (res.products.length) {
+        res.products.forEach((product) => {
+          if (product.likes.length) {
+            product.likes.forEach((like) => {
+              foodtruckSocials.push(like);
+            });
+          }
+        });
+      }
+
+      dispatch(finishOneFoodtruck(foodtruckData));
+    })
     .catch((err) => err);
