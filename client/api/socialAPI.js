@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { axiosInit } from '../utils';
 
 export const getAllSocials = (headers) =>
