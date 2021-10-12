@@ -5,6 +5,33 @@ import {
   GET_ALL_SOCIALS,
 } from '../constants/socialTypes';
 
+const newSocials = (stateArray, actionPayload) => {
+  let uuidExists = false;
+
+  const updateSocials = stateArray.map((social) => {
+    const clonedSocial = { ...social };
+
+    if (clonedSocial.uuid === actionPayload.uuid) {
+      clonedSocial.like += actionPayload.like;
+      uuidExists = true;
+    }
+
+    return clonedSocial;
+  });
+
+  return uuidExists
+    ? updateSocials
+    : [
+        ...stateArray,
+        {
+          uuid: actionPayload.uuid,
+          like: actionPayload.like,
+          emoji: actionPayload.emoji,
+          product: actionPayload.product,
+        },
+      ];
+};
+
 const INITIAL_STATE = {
   foodtruckSocials: [],
   productSocials: [],
@@ -28,55 +55,14 @@ const socialReducer = (state = INITIAL_STATE, action) => {
         productSocials: action.payload.productSocials,
       };
     case ADD_SOCIAL:
-      let foodtruckUuidExists = false;
-
-      let newFoodtruckSocials = state.foodtruckSocials.map((social) => {
-        const clonedSocial = { ...social };
-
-        if (clonedSocial.uuid === action.payload.uuid) {
-          clonedSocial.like += action.payload.uuid;
-          foodtruckUuidExists = true;
-        }
-
-        return clonedSocial;
-      });
-
-      newFoodtruckSocials = foodtruckUuidExists
-        ? newFoodtruckSocials
-        : [
-            ...state.foodtruckSocials,
-            {
-              uuid: action.payload.uuid,
-              like: action.payload.like,
-              emoji: action.payload.emoji,
-              product: action.payload.product,
-            },
-          ];
-
-      let productUuidExists = false;
-
-      let newProductSocials = state.productSocials.map((social) => {
-        const clonedSocial = { ...social };
-
-        if (clonedSocial.uuid === action.payload.uuid) {
-          clonedSocial += action.payload.uuid;
-          productUuidExists = true;
-        }
-
-        return clonedSocial;
-      });
-
-      newProductSocials = productUuidExists
-        ? newProductSocials
-        : [
-            ...state.productSocials,
-            {
-              uuid: action.payload.uuid,
-              like: action.payload.like,
-              emoji: action.payload.emoji,
-              product: action.payload.product,
-            },
-          ];
+      const newFoodtruckSocials = newSocials(
+        state.foodtruckSocials,
+        action.payload
+      );
+      const newProductSocials = newSocials(
+        state.productSocials,
+        action.payload
+      );
 
       return {
         ...state,
