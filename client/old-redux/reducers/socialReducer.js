@@ -1,7 +1,14 @@
-import { ADD_SOCIAL, GET_ALL_SOCIALS } from '../constants/socialTypes';
+import {
+  ADD_SOCIAL,
+  GET_ALL_FOODTRUCK_SOCIALS,
+  GET_ALL_PRODUCT_SOCIALS,
+  GET_ALL_SOCIALS,
+} from '../constants/socialTypes';
 
 const INITIAL_STATE = {
   socials: [],
+  foodtruckSocials: [],
+  productSocials: [],
 };
 
 const socialReducer = (state = INITIAL_STATE, action) => {
@@ -10,6 +17,16 @@ const socialReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         socials: action.payload.socials,
+      };
+    case GET_ALL_FOODTRUCK_SOCIALS:
+      return {
+        ...state,
+        foodtruckSocials: action.payload.foodtruckSocials,
+      };
+    case GET_ALL_PRODUCT_SOCIALS:
+      return {
+        ...state,
+        productSocials: action.payload.productSocials,
       };
     case ADD_SOCIAL:
       let uuidExists = false;
