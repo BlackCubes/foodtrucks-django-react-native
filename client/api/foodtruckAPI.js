@@ -1,15 +1,11 @@
 import axios from 'axios';
-
-const axiosInit = axios.create({
-  baseURL: `http://10.0.0.233:8000/api/v1/foodtrucks/`,
-  responseType: 'json',
-});
+import { axiosInit } from '../utils';
 
 export const getAllFoodtrucks = (headers) =>
   new Promise((resolve, reject) =>
     setTimeout(() => {
       try {
-        axiosInit
+        axiosInit('foodtrucks')
           .get('', headers)
           .then((res) => resolve(res.data))
           .catch((err) => {
@@ -31,7 +27,7 @@ export const getFoodtruck = (slug, headers) =>
   new Promise((resolve, reject) =>
     setTimeout(() => {
       try {
-        axiosInit
+        axiosInit('foodtrucks')
           .get(`${slug}`, headers)
           .then((res) => resolve(res.data))
           .catch((err) => {
