@@ -1,7 +1,50 @@
-import { ADD_SOCIAL, GET_ALL_SOCIALS } from '../constants/socialTypes';
+import {
+  ADD_SOCIAL,
+  GET_ALL_FOODTRUCK_SOCIALS,
+  GET_ALL_PRODUCT_SOCIALS,
+  GET_ALL_SOCIALS,
+} from '../constants/socialTypes';
+
+/**
+ * Checks to see if the given state's array has the UUID from the payload. If it
+ * does, then increment the 'like' integer with the payload, and return the
+ * state's array. If not, then insert the payload into the original state's array.
+ * @param {[]|[{uuid:String, like:Number, emoji:String, product:String}]} stateArray
+ * @param {{uuid:String, like:Number, emoji:String, product:String}} actionPayload
+ * @returns {[{uuid:String, like:Number, emoji:String, product:String}]} An array
+ * of objects.
+ */
+const newSocials = (stateArray, actionPayload) => {
+  let uuidExists = false;
+
+  const updateSocials = stateArray.map((social) => {
+    const clonedSocial = { ...social };
+
+    if (clonedSocial.uuid === actionPayload.uuid) {
+      clonedSocial.like += actionPayload.like;
+      uuidExists = true;
+    }
+
+    return clonedSocial;
+  });
+
+  return uuidExists
+    ? updateSocials
+    : [
+        ...stateArray,
+        {
+          uuid: actionPayload.uuid,
+          like: actionPayload.like,
+          emoji: actionPayload.emoji,
+          product: actionPayload.product,
+        },
+      ];
+};
 
 const INITIAL_STATE = {
   socials: [],
+  foodtruckSocials: [],
+  productSocials: [],
 };
 
 const socialReducer = (state = INITIAL_STATE, action) => {
@@ -11,35 +54,30 @@ const socialReducer = (state = INITIAL_STATE, action) => {
         ...state,
         socials: action.payload.socials,
       };
+    case GET_ALL_FOODTRUCK_SOCIALS:
+      return {
+        ...state,
+        foodtruckSocials: action.payload.foodtruckSocials,
+      };
+    case GET_ALL_PRODUCT_SOCIALS:
+      return {
+        ...state,
+        productSocials: action.payload.productSocials,
+      };
     case ADD_SOCIAL:
-      let uuidExists = false;
-
-      let newSocials = state.socials.map((social) => {
-        const clonedSocial = { ...social };
-
-        if (clonedSocial.uuid === action.payload.uuid) {
-          clonedSocial.like += action.payload.like;
-          uuidExists = true;
-        }
-
-        return clonedSocial;
-      });
-
-      newSocials = uuidExists
-        ? newSocials
-        : [
-            ...state.socials,
-            {
-              uuid: action.payload.uuid,
-              like: action.payload.like,
-              emoji: action.payload.emoji,
-              product: action.payload.product,
-            },
-          ];
+      const newFoodtruckSocials = newSocials(
+        state.foodtruckSocials,
+        action.payload
+      );
+      const newProductSocials = newSocials(
+        state.productSocials,
+        action.payload
+      );
 
       return {
         ...state,
-        socials: newSocials,
+        foodtruckSocials: newFoodtruckSocials,
+        productSocials: newProductSocials,
       };
     default:
       return state;
