@@ -55,5 +55,5 @@ const finishAllSocialsFromProduct = (productSocials) => ({
 
 export const allSocialsFromProduct = (product_slug) => (dispatch) =>
   getAllSocialsFromProduct(product_slug, headers())
-    .then((res) => dispatch())
+    .then((res) => dispatch(finishAllSocialsFromProduct(res)))
     .catch((err) => console.error(err));
