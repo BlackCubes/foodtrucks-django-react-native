@@ -1,5 +1,27 @@
 import { axiosInit } from '../utils';
 
+export const getAllEmojis = (headers) =>
+  new Promise((resolve, reject) =>
+    setTimeout(() => {
+      try {
+        axiosInit('socials')
+          .get('emojis', headers)
+          .then((res) => resolve(res.data))
+          .catch((err) => {
+            if (err.response) {
+              reject(err.response.data);
+            } else if (err.request) {
+              reject(err.request);
+            } else {
+              reject(err.message);
+            }
+          });
+      } catch (err) {
+        reject('System error. Please try again later.');
+      }
+    }, 1000)
+  );
+
 export const getAllSocials = (headers) =>
   new Promise((resolve, reject) =>
     setTimeout(() => {
