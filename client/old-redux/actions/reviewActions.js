@@ -55,32 +55,14 @@ export const addReview = (review, product_slug, user_uuid) => (dispatch) =>
     .catch((err) => console.error(err));
 
 // GET ONE REVIEW
-const finishOneReview = (
-  uuid,
-  review,
-  product,
-  user,
-  created_at,
-  updated_at
-) => ({
+const finishOneReview = (review) => ({
   type: GET_ONE_REVIEW,
-  payload: { uuid, review, product, user, created_at, updated_at },
+  payload: { review },
 });
 
 export const oneReview = (uuid) => (dispatch) =>
   getReview(uuid, headers())
-    .then((res) =>
-      dispatch(
-        finishOneReview(
-          res.uuid,
-          res.review,
-          res.product,
-          res.user,
-          res.created_at,
-          res.updated_at
-        )
-      )
-    )
+    .then((res) => dispatch(finishOneReview(res)))
     .catch((err) => console.error(err));
 
 // GET ALL REVIEWS FROM FOODTRUCK
