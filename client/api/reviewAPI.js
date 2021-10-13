@@ -52,12 +52,12 @@ export const createReview = (review, product_slug, user_uuid, headers) =>
     }, 1000)
   );
 
-export const getReview = (slug, headers) =>
+export const getReview = (uuid, headers) =>
   new Promise((resolve, reject) =>
     setTimeout(() => {
       try {
         axiosInit('reviews')
-          .get(`${slug}`, headers)
+          .get(`${uuid}`, headers)
           .then((res) => resolve(res.data))
           .catch((err) => {
             if (err.response) {
