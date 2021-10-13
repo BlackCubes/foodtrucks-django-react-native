@@ -1,16 +1,29 @@
 import {
   ADD_SOCIAL,
+  GET_ALL_EMOJIS,
   GET_ALL_FOODTRUCK_SOCIALS,
   GET_ALL_PRODUCT_SOCIALS,
   GET_ALL_SOCIALS,
 } from '../constants/socialTypes';
 import {
   createSocial,
+  getAllEmojis,
   getAllSocials,
   getAllSocialsFromFoodtruck,
   getAllSocialsFromProduct,
 } from '../../api/socialAPI';
 import { headers } from '../../utils';
+
+// GET ALL EMOJIS
+const finishAllEmojis = (emojis) => ({
+  type: GET_ALL_EMOJIS,
+  payload: { emojis },
+});
+
+export const allEmojis = () => (dispatch) =>
+  getAllEmojis(headers())
+    .then((res) => dispatch(finishAllEmojis(res)))
+    .catch((err) => console.error(err));
 
 // GET ALL SOCIALS
 const finishAllSocials = (socials) => ({

@@ -1,5 +1,6 @@
 import {
   ADD_SOCIAL,
+  GET_ALL_EMOJIS,
   GET_ALL_FOODTRUCK_SOCIALS,
   GET_ALL_PRODUCT_SOCIALS,
   GET_ALL_SOCIALS,
@@ -42,6 +43,7 @@ const newSocials = (stateArray, actionPayload) => {
 };
 
 const INITIAL_STATE = {
+  emojis: [],
   socials: [],
   foodtruckSocials: [],
   productSocials: [],
@@ -49,6 +51,11 @@ const INITIAL_STATE = {
 
 const socialReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case GET_ALL_EMOJIS:
+      return {
+        ...state,
+        emojis: action.payload.emojis,
+      };
     case GET_ALL_SOCIALS:
       return {
         ...state,
