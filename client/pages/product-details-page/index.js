@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { FlatList, Text, View } from 'react-native';
-import { Text as Emoji } from 'react-native-svg';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-native';
 
