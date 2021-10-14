@@ -15,25 +15,25 @@ import {
 import { headers } from '../../utils';
 
 // GET ALL EMOJIS
-const finishAllEmojis = (emojis) => ({
+const finishRetrieveAllEmojis = (emojis) => ({
   type: GET_ALL_EMOJIS,
   payload: { emojis },
 });
 
-export const allEmojis = () => (dispatch) =>
+export const retrieveAllEmojis = () => (dispatch) =>
   getAllEmojis(headers())
-    .then((res) => dispatch(finishAllEmojis(res)))
+    .then((res) => dispatch(finishRetrieveAllEmojis(res)))
     .catch((err) => console.error(err));
 
 // GET ALL SOCIALS
-const finishAllSocials = (socials) => ({
+const finishRetrieveAllSocials = (socials) => ({
   type: GET_ALL_SOCIALS,
   payload: { socials },
 });
 
-export const allSocials = () => (dispatch) =>
+export const retrieveAllSocials = () => (dispatch) =>
   getAllSocials(headers())
-    .then((res) => dispatch(finishAllSocials(res)))
+    .then((res) => dispatch(finishRetrieveAllSocials(res)))
     .catch((err) => console.error(err));
 
 // ADD SOCIAL
@@ -50,23 +50,23 @@ export const addSocial = (emoji, product_slug, like) => (dispatch) =>
     .catch((err) => console.error(err));
 
 // GET ALL SOCIALS FROM FOODTRUCK
-const finishAllSocialsFromFoodtruck = (foodtruckSocials) => ({
+const finishRetrieveAllSocialsFromFoodtruck = (foodtruckSocials) => ({
   type: GET_ALL_FOODTRUCK_SOCIALS,
   payload: { foodtruckSocials },
 });
 
-export const allSocialsFromFoodtruck = (foodtruck_slug) => (dispatch) =>
+export const retrieveAllSocialsFromFoodtruck = (foodtruck_slug) => (dispatch) =>
   getAllSocialsFromFoodtruck(foodtruck_slug, headers())
-    .then((res) => dispatch(finishAllSocialsFromFoodtruck(res)))
+    .then((res) => dispatch(finishRetrieveAllSocialsFromFoodtruck(res)))
     .catch((err) => console.error(err));
 
 // GET ALL SOCIALS FROM PRODUCT
-const finishAllSocialsFromProduct = (productSocials) => ({
+const finishRetrieveAllSocialsFromProduct = (productSocials) => ({
   type: GET_ALL_PRODUCT_SOCIALS,
   payload: { productSocials },
 });
 
-export const allSocialsFromProduct = (product_slug) => (dispatch) =>
+export const retrieveAllSocialsFromProduct = (product_slug) => (dispatch) =>
   getAllSocialsFromProduct(product_slug, headers())
-    .then((res) => dispatch(finishAllSocialsFromProduct(res)))
+    .then((res) => dispatch(finishRetrieveAllSocialsFromProduct(res)))
     .catch((err) => console.error(err));

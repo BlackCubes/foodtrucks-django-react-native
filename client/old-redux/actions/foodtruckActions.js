@@ -6,23 +6,23 @@ import { getAllFoodtrucks, getFoodtruck } from '../../api/foodtruckAPI';
 import { headers } from '../../utils';
 
 // GET ALL FOODTRUCKS
-const finishAllFoodtrucks = (foodtrucks) => ({
+const finishRetrieveAllFoodtrucks = (foodtrucks) => ({
   type: GET_ALL_FOODTRUCKS,
   payload: { foodtrucks },
 });
 
-export const allFoodtrucks = () => (dispatch) =>
+export const retrieveAllFoodtrucks = () => (dispatch) =>
   getAllFoodtrucks(headers())
-    .then((res) => dispatch(finishAllFoodtrucks(res)))
+    .then((res) => dispatch(finishRetrieveAllFoodtrucks(res)))
     .catch((err) => console.log(err));
 
 // GET ONE FOODTRUCK
-const finishOneFoodtruck = (foodtruck) => ({
+const finishRetrieveOneFoodtruck = (foodtruck) => ({
   type: GET_ONE_FOODTRUCK,
   payload: { foodtruck },
 });
 
-export const oneFoodtruck = (slug) => (dispatch) =>
+export const retrieveOneFoodtruck = (slug) => (dispatch) =>
   getFoodtruck(slug, headers())
     .then((res) => {
       const foodtruckData = {
@@ -49,6 +49,6 @@ export const oneFoodtruck = (slug) => (dispatch) =>
         });
       }
 
-      dispatch(finishOneFoodtruck(foodtruckData));
+      dispatch(finishRetrieveOneFoodtruck(foodtruckData));
     })
     .catch((err) => err);

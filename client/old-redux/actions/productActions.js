@@ -11,23 +11,23 @@ import {
 import { headers } from '../../utils';
 
 // GET ALL PRODUCTS
-const finishAllProducts = (products) => ({
+const finishRetrieveAllProducts = (products) => ({
   type: GET_ALL_PRODUCTS,
   payload: { products },
 });
 
-export const allProducts = () => (dispatch) =>
+export const retrieveAllProducts = () => (dispatch) =>
   getAllProducts(headers())
-    .then((res) => dispatch(finishAllProducts(res)))
+    .then((res) => dispatch(finishRetrieveAllProducts(res)))
     .catch((err) => console.error(err));
 
 // GET ONE PRODUCT
-const finishOneProduct = (product) => ({
+const finishRetrieveOneProduct = (product) => ({
   type: GET_ONE_PRODUCT,
   payload: { product },
 });
 
-export const oneProduct = (slug) => (dispatch) =>
+export const retrieveOneProduct = (slug) => (dispatch) =>
   getProduct(slug, headers())
     .then((res) => {
       const productData = {
@@ -42,17 +42,18 @@ export const oneProduct = (slug) => (dispatch) =>
         truck: res.truck,
       };
 
-      dispatch(finishOneProduct(productData));
+      dispatch(finishRetrieveOneProduct(productData));
     })
     .catch((err) => console.error(err));
 
 // GET ALL PRODUCTS FROM FOODTRUCK
-const finishAllProductsFromFoodtruck = (foodtruckProducts) => ({
+const finishRetrieveAllProductsFromFoodtruck = (foodtruckProducts) => ({
   type: GET_ALL_FOODTRUCK_PRODUCTS,
   payload: { foodtruckProducts },
 });
 
-export const allProductsFromFoodtruck = (foodtruck_slug) => (dispatch) =>
-  getAllProductsFromFoodtruck(foodtruck_slug, headers())
-    .then((res) => dispatch(finishAllProductsFromFoodtruck(res)))
-    .catch((err) => console.error(err));
+export const retrieveAllProductsFromFoodtruck =
+  (foodtruck_slug) => (dispatch) =>
+    getAllProductsFromFoodtruck(foodtruck_slug, headers())
+      .then((res) => dispatch(finishRetrieveAllProductsFromFoodtruck(res)))
+      .catch((err) => console.error(err));
