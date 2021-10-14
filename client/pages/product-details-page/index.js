@@ -14,7 +14,7 @@ import {
 } from '../../old-redux/actions/socialActions';
 
 const mapStateToProps = (state) => ({
-  emojis: state.socials.emojis,
+  emojis: state.social.emojis,
   product: state.product.product,
   productReviews: state.review.productReviews,
   productSocials: state.social.productSocials,
