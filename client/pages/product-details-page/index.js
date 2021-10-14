@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { FlatList, Text, View } from 'react-native';
+import { Text as Emoji } from 'react-native-svg';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-native';
 
@@ -56,8 +57,6 @@ const ProductDetailsPage = ({
 
   if (!product) return <Text>No products</Text>;
 
-  console.log(productSocials);
-
   return (
     <View>
       <Text>Product: {product.name}</Text>
@@ -79,11 +78,11 @@ const ProductDetailsPage = ({
 
       <FlatList
         data={emojis}
-        keyExtractor={(emoji) => emoji.uuid}
+        keyExtractor={(item) => item.uuid}
         ListEmptyComponent={() => <Text>No emojis!</Text>}
-        renderItem={({ emoji }) => (
+        renderItem={({ item }) => (
           <View>
-            <Text>{emoji}</Text>
+            <Text>{item.emoji}</Text>
           </View>
         )}
       />
@@ -97,15 +96,15 @@ const ProductDetailsPage = ({
 
       <FlatList
         data={productReviews}
-        keyExtractor={(review) => review.uuid}
+        keyExtractor={(item) => item.uuid}
         ListEmptyComponent={() => <Text>No reviews</Text>}
-        renderItem={({ review, user, created_at }) => (
+        renderItem={({ item }) => (
           <View>
             <Text>
-              Created by {user} at {created_at}
+              Created by {item.user} at {item.created_at}
             </Text>
 
-            <Text>Review: {review}</Text>
+            <Text>Review: {item.review}</Text>
           </View>
         )}
       />
