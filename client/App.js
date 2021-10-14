@@ -1,18 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Provider } from 'react-redux';
 
-import { TestComponent } from './components';
 import { store } from './old-redux/store';
+import AppRouter from './router';
 
 export default function App() {
   return (
     <Provider store={store}>
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
+        <AppRouter />
 
-        <TestComponent />
         <StatusBar style="auto" />
       </View>
     </Provider>
