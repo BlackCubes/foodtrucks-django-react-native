@@ -60,8 +60,6 @@ const ProductDetailsPage = ({
 
   if (!product) return <Text>No products</Text>;
 
-  console.log(productSocials);
-
   return (
     <View>
       <Text>Product: {product.name}</Text>
