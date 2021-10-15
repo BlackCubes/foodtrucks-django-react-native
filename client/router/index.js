@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, View, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { ProductDetailsPage } from '../pages';
+import { FoodtruckDetailsPage, ProductDetailsPage } from '../pages';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +19,14 @@ const Home = ({ navigation }) => {
           });
         }}
       />
+      <Button
+        title="Go to Taco Truck"
+        onPress={() => {
+          navigation.push('Foodtruck Details', {
+            slug: 'taco-truck',
+          });
+        }}
+      />
     </View>
   );
 };
@@ -26,6 +34,8 @@ const Home = ({ navigation }) => {
 const AppRouter = () => (
   <Stack.Navigator initialRouteName="Home">
     <Stack.Screen name="Home" component={Home} />
+
+    <Stack.Screen name="Foodtruck Details" component={FoodtruckDetailsPage} />
 
     <Stack.Screen name="Product Details" component={ProductDetailsPage} />
   </Stack.Navigator>
