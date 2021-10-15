@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { Button, FlatList, Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-native';
 
 import { retrieveOneProduct } from '../../old-redux/actions/productActions';
 import {
@@ -43,11 +42,19 @@ const ProductDetailsPage = ({
   commenceRetrieveAllSocialsFromProduct,
   commenceRetrieveOneProduct,
   emojis,
+  navigation,
   product,
   productReviews,
   productSocials,
+  route,
 }) => {
-  const { slug } = useParams();
+  const { slug } = route.params;
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: !product ? 'Product' : `Product: ${product.name}`,
+    });
+  }, [navigation, product]);
 
   useEffect(() => {
     if (slug) {

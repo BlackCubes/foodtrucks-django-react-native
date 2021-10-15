@@ -1,21 +1,34 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { Link, NativeRouter, Route, Switch } from 'react-router-native';
+import { Button, View, Text } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { ProductDetailsPage } from '../pages';
 
-const AppRouter = () => (
-  <NativeRouter>
-    <View>
-      <Link to="/products/chicken-taco">
-        <Text>Chicken Taco</Text>
-      </Link>
+const Stack = createNativeStackNavigator();
 
-      <Switch>
-        <Route path="/products/:slug" exact component={ProductDetailsPage} />
-      </Switch>
+const Home = ({ navigation }) => {
+  return (
+    <View>
+      <Text>Dummy Home Screen</Text>
+
+      <Button
+        title="Go to Chicken Taco"
+        onPress={() => {
+          navigation.push('Product Details', {
+            slug: 'chicken-taco',
+          });
+        }}
+      />
     </View>
-  </NativeRouter>
+  );
+};
+
+const AppRouter = () => (
+  <Stack.Navigator initialRouteName="Home">
+    <Stack.Screen name="Home" component={Home} />
+
+    <Stack.Screen name="Product Details" component={ProductDetailsPage} />
+  </Stack.Navigator>
 );
 
 export default AppRouter;
