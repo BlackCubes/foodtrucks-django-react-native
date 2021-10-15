@@ -14,7 +14,7 @@ const Home = ({ navigation }) => {
       <Button
         title="Go to Chicken Taco"
         onPress={() => {
-          navigation.push('ProductDetails', {
+          navigation.push('Product Details', {
             slug: 'chicken-taco',
           });
         }}
@@ -27,7 +27,7 @@ const AppRouter = () => (
   <Stack.Navigator initialRouteName="Home">
     <Stack.Screen name="Home" component={Home} />
 
-    <Stack.Screen name="ProductDetails" component={ProductDetailsPage} />
+    <Stack.Screen name="Product Details" component={ProductDetailsPage} />
   </Stack.Navigator>
 );
 
