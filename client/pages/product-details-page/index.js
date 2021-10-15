@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Button, FlatList, Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-native';
 
 import { retrieveOneProduct } from '../../old-redux/actions/productActions';
 import {
@@ -46,8 +45,9 @@ const ProductDetailsPage = ({
   product,
   productReviews,
   productSocials,
+  route,
 }) => {
-  const { slug } = useParams();
+  const { slug } = route.params;
 
   useEffect(() => {
     if (slug) {
