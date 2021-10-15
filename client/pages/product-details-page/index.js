@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { Button, FlatList, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-native';
 
@@ -9,6 +9,7 @@ import {
   retrieveAllReviewsFromProduct,
 } from '../../old-redux/actions/reviewActions';
 import {
+  addSocial,
   retrieveAllEmojis,
   retrieveAllSocialsFromProduct,
 } from '../../old-redux/actions/socialActions';
@@ -23,6 +24,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   commenceAddReview: (review, product_slug, user_uuid) =>
     dispatch(addReview(review, product_slug, user_uuid)),
+  commenceAddSocial: (emoji, product_slug, like) =>
+    dispatch(addSocial(emoji, product_slug, like)),
   commenceRetrieveAllEmojis: () => dispatch(retrieveAllEmojis()),
   commenceRetrieveAllReviewsFromProduct: (product_slug) =>
     dispatch(retrieveAllReviewsFromProduct(product_slug)),
@@ -34,6 +37,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const ProductDetailsPage = ({
   commenceAddReview,
+  commenceAddSocial,
   commenceRetrieveAllEmojis,
   commenceRetrieveAllReviewsFromProduct,
   commenceRetrieveAllSocialsFromProduct,
@@ -55,6 +59,8 @@ const ProductDetailsPage = ({
   }, [slug]);
 
   if (!product) return <Text>No products</Text>;
+
+  console.log(productSocials);
 
   return (
     <View>
@@ -93,9 +99,10 @@ const ProductDetailsPage = ({
         keyExtractor={(item) => item.uuid}
         ListEmptyComponent={() => <Text>No emojis!</Text>}
         renderItem={({ item }) => (
-          <View>
-            <Text>{item.emoji}</Text>
-          </View>
+          <Button
+            title={item.emoji}
+            onPress={() => commenceAddSocial(item.emoji, slug, 1)}
+          />
         )}
       />
 
