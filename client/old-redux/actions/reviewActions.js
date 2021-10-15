@@ -15,14 +15,14 @@ import {
 import { headers } from '../../utils';
 
 // GET ALL REVIEWS
-const finishAllReview = (reviews) => ({
+const finishRetrieveAllReview = (reviews) => ({
   type: GET_ALL_REVIEWS,
   payload: { reviews },
 });
 
-export const allReviews = () => (dispatch) =>
+export const retrieveAllReviews = () => (dispatch) =>
   getAllReviews(headers())
-    .then((res) => dispatch(finishAllReview(res)))
+    .then((res) => dispatch(finishRetrieveAllReview(res)))
     .catch((err) => console.error(err));
 
 // ADD REVIEW
@@ -55,34 +55,34 @@ export const addReview = (review, product_slug, user_uuid) => (dispatch) =>
     .catch((err) => console.error(err));
 
 // GET ONE REVIEW
-const finishOneReview = (review) => ({
+const finishRetrieveOneReview = (review) => ({
   type: GET_ONE_REVIEW,
   payload: { review },
 });
 
-export const oneReview = (uuid) => (dispatch) =>
+export const retrieveOneReview = (uuid) => (dispatch) =>
   getReview(uuid, headers())
-    .then((res) => dispatch(finishOneReview(res)))
+    .then((res) => dispatch(finishRetrieveOneReview(res)))
     .catch((err) => console.error(err));
 
 // GET ALL REVIEWS FROM FOODTRUCK
-const finishAllReviewsFromFoodtruck = (foodtruckReviews) => ({
+const finishRetrieveAllReviewsFromFoodtruck = (foodtruckReviews) => ({
   type: GET_ALL_FOODTRUCK_REVIEWS,
   payload: { foodtruckReviews },
 });
 
-export const allReviewsFromFoodtruck = (foodtruck_slug) => (dispatch) =>
+export const retrieveAllReviewsFromFoodtruck = (foodtruck_slug) => (dispatch) =>
   getAllReviewsFromFoodtruck(foodtruck_slug, headers())
-    .then((res) => dispatch(finishAllReviewsFromFoodtruck(res)))
+    .then((res) => dispatch(finishRetrieveAllReviewsFromFoodtruck(res)))
     .catch((err) => console.error(err));
 
 // GET ALL REVIEWS FROM PRODUCT
-const finishAllReviewsFromProduct = (productReviews) => ({
+const finishRetrieveAllReviewsFromProduct = (productReviews) => ({
   type: GET_ALL_PRODUCT_REVIEWS,
   payload: { productReviews },
 });
 
-export const allReviewsFromProduct = (product_slug) => (dispatch) =>
+export const retrieveAllReviewsFromProduct = (product_slug) => (dispatch) =>
   getAllReviewsFromProduct(product_slug, headers())
-    .then((res) => dispatch(finishAllReviewsFromProduct(res)))
+    .then((res) => dispatch(finishRetrieveAllReviewsFromProduct(res)))
     .catch((err) => console.error(err));
