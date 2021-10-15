@@ -22,7 +22,7 @@ const newSocials = (stateArray, actionPayload) => {
     const clonedSocial = { ...social };
 
     if (clonedSocial.uuid === actionPayload.uuid) {
-      clonedSocial.like += actionPayload.like;
+      clonedSocial.like = actionPayload.like;
       uuidExists = true;
     }
 
