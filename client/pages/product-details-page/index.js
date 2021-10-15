@@ -77,7 +77,7 @@ const ProductDetailsPage = ({
 
       <FlatList
         data={productSocials}
-        keyExtractor={() => item.uuid}
+        keyExtractor={(item) => item.uuid}
         ListEmptyComponent={() => <Text>No Socials!</Text>}
         renderItem={({ item }) => (
           <View>
