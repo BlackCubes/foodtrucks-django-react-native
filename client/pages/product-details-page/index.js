@@ -76,6 +76,19 @@ const ProductDetailsPage = ({
       />
 
       <FlatList
+        data={productSocials}
+        keyExtractor={() => item.uuid}
+        ListEmptyComponent={() => <Text>No Socials!</Text>}
+        renderItem={({ item }) => (
+          <View>
+            <Text>
+              {item.emoji} {item.like}
+            </Text>
+          </View>
+        )}
+      />
+
+      <FlatList
         data={emojis}
         keyExtractor={(item) => item.uuid}
         ListEmptyComponent={() => <Text>No emojis!</Text>}
