@@ -16,7 +16,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     product = serializers.SlugRelatedField(
         slug_field='slug', queryset=Product.objects.all())
     user = serializers.SlugRelatedField(
-        slug_field='uuid', queryset=CustomUser.objects.all())
+        slug_field='username', queryset=CustomUser.objects.all())
 
     class Meta:
         model = Review
