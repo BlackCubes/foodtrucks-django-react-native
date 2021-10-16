@@ -104,12 +104,12 @@ const FoodtruckDetailsPage = ({
 
       <FlatList
         data={foodtruckSocials}
-        keyExtractor={(item) => item.uuid}
+        keyExtractor={(social_item) => social_item.uuid}
         ListEmptyComponent={() => <Text>No Socials!</Text>}
-        renderItem={({ item }) => (
+        renderItem={({ item: social_item }) => (
           <View>
             <Text>
-              {item.emoji} {item.like}
+              {social_item.emoji} {social_item.like}
             </Text>
           </View>
         )}
@@ -117,12 +117,12 @@ const FoodtruckDetailsPage = ({
 
       <FlatList
         data={emojis}
-        keyExtractor={(item) => item.uuid}
+        keyExtractor={(emoji_item) => emoji_item.uuid}
         ListEmptyComponent={() => <Text>No Emojis!</Text>}
-        renderItem={({ item }) => (
+        renderItem={({ item: emoji_item }) => (
           <Button
-            title={item.emoji}
-            onPress={() => commenceAddSocial(item.emoji, slug, 1)}
+            title={emoji_item.emoji}
+            onPress={() => commenceAddSocial(emoji_item.emoji, slug, 1)}
           />
         )}
       />
