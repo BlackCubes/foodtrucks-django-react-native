@@ -12,14 +12,6 @@ const Home = ({ navigation }) => {
       <Text>Dummy Home Screen</Text>
 
       <Button
-        title="Go to Chicken Taco"
-        onPress={() => {
-          navigation.push('Product Details', {
-            slug: 'chicken-taco',
-          });
-        }}
-      />
-      <Button
         title="Go to Taco Truck"
         onPress={() => {
           navigation.push('Foodtruck Details', {
