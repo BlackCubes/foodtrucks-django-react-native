@@ -1,8 +1,11 @@
 import os
 from django.db import models
+from django.db.models.signals import pre_save
 from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
 from uuid import uuid4
+
+from main.utils import slug_generator
 
 
 def upload_truckimage_to(instance, filename):
@@ -54,3 +57,6 @@ class TruckImage(models.Model):
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
     truck = models.ForeignKey(
         Truck, related_name='images', on_delete=models.CASCADE)
+
+
+pre_save.connect(slug_generator, sender=Truck)

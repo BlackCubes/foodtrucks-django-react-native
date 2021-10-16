@@ -1,7 +1,10 @@
 import os
 from django.db import models
+from django.db.models.signals import pre_save
 from django.utils import timezone
 from uuid import uuid4
+
+from main.utils import slug_generator
 
 
 def upload_to(instance, filename):
@@ -34,3 +37,6 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
     truck = models.ForeignKey(
         'foodtruck.Truck', related_name='products', on_delete=models.CASCADE)
+
+
+pre_save.connect(slug_generator, sender=Product)
