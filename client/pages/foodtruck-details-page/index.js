@@ -97,8 +97,6 @@ const FoodtruckDetailsPage = ({
 
             <Text>Price: {product_item.price}</Text>
 
-            <Text>Available: {product_item.is_available ? 'Yes' : 'No'}</Text>
-
             {foodtruckSocials
               .filter((data) => data.product === product_item.slug)
               .map((social_item) => (
@@ -118,6 +116,15 @@ const FoodtruckDetailsPage = ({
                 }
               />
             ))}
+
+            <Button
+              title="View"
+              onPress={() =>
+                navigation.push('Product Details', {
+                  slug: product_item.slug,
+                })
+              }
+            />
           </View>
         )}
       />
