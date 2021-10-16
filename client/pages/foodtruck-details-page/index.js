@@ -98,32 +98,27 @@ const FoodtruckDetailsPage = ({
             <Text>Price: {product_item.price}</Text>
 
             <Text>Available: {product_item.is_available ? 'Yes' : 'No'}</Text>
-          </View>
-        )}
-      />
 
-      <FlatList
-        data={foodtruckSocials}
-        keyExtractor={(social_item) => social_item.uuid}
-        ListEmptyComponent={() => <Text>No Socials!</Text>}
-        renderItem={({ item: social_item }) => (
-          <View>
-            <Text>
-              {social_item.emoji} {social_item.like}
-            </Text>
-          </View>
-        )}
-      />
+            {foodtruckSocials
+              .filter((data) => data.product === product_item.slug)
+              .map((social_item) => (
+                <View key={social_item.uuid}>
+                  <Text>
+                    {social_item.emoji} {social_item.like}
+                  </Text>
+                </View>
+              ))}
 
-      <FlatList
-        data={emojis}
-        keyExtractor={(emoji_item) => emoji_item.uuid}
-        ListEmptyComponent={() => <Text>No Emojis!</Text>}
-        renderItem={({ item: emoji_item }) => (
-          <Button
-            title={emoji_item.emoji}
-            onPress={() => commenceAddSocial(emoji_item.emoji, slug, 1)}
-          />
+            {emojis.map((emoji_item) => (
+              <Button
+                key={emoji_item.uuid}
+                title={emoji_item.emoji}
+                onPress={() =>
+                  commenceAddSocial(emoji_item.emoji, product_item.slug, 1)
+                }
+              />
+            ))}
+          </View>
         )}
       />
 
