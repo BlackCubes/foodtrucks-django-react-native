@@ -14,6 +14,7 @@ import {
 const mapStateToProps = (state) => ({
   emojis: state.social.emojis,
   foodtruck: state.foodtruck.foodtruck,
+  foodtruckProducts: state.product.foodtruckProducts,
   foodtruckReviews: state.review.foodtruckReviews,
   foodtruckSocials: state.social.foodtruckSocials,
 });
@@ -41,6 +42,7 @@ const FoodtruckDetailsPage = ({
   commenceRetrieveOneFoodtruck,
   emojis,
   foodtruck,
+  foodtruckProducts,
   foodtruckReviews,
   foodtruckSocials,
   navigation,
@@ -83,6 +85,21 @@ const FoodtruckDetailsPage = ({
           borderBottomColor: 'black',
           borderBottomWidth: 1,
         }}
+      />
+
+      <FlatList
+        data={foodtruckProducts}
+        keyExtractor={(product_item) => product_item.uuid}
+        ListEmptyComponent={() => <Text>No Products!</Text>}
+        renderItem={({ item: product_item }) => (
+          <View>
+            <Text>Product Name: {product_item.name}</Text>
+
+            <Text>Price: {product_item.price}</Text>
+
+            <Text>Available: {product_item.is_available ? 'Yes' : 'No'}</Text>
+          </View>
+        )}
       />
 
       <FlatList
