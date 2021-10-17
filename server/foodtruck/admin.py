@@ -6,7 +6,9 @@ from .models import Truck, TruckImage
 
 # TRUCK IMAGE INLINE
 class TruckImageInline(admin.StackedInline):
-    """"""
+    """
+    Inline Model Admin for the TruckImage model.
+    """
     model = TruckImage
 
     fieldsets = (
@@ -30,7 +32,11 @@ class TruckImageInline(admin.StackedInline):
 
 # TRUCK ADMIN
 class TruckAdmin(admin.ModelAdmin):
-    """"""
+    """
+    Model Admin for the Truck model.
+
+    Inlines: TruckImageInline.
+    """
     model = Truck
 
     # Viewing all trucks
@@ -65,7 +71,7 @@ class TruckAdmin(admin.ModelAdmin):
     # To be viewed on the truck since the image model has a foreign key.
     inlines = (TruckImageInline,)
 
-    # Adding preview image.
+    # Adding preview image from the TruckImage.
     @admin.display(description='Preview')
     def image_tag(self, obj):
         queryset = TruckImage.objects.filter(
@@ -77,11 +83,13 @@ class TruckAdmin(admin.ModelAdmin):
 
         return '(No profile image)'
 
+    # To display the add_fieldsets on the creation page.
     def get_fieldsets(self, request, obj=None):
         if not obj:
             return self.add_fieldsets
         return super(TruckAdmin, self).get_fieldsets(request, obj)
 
+    # To not display the inlines on the creation page.
     def get_inline_instances(self, request, obj):
         return obj and super(TruckAdmin, self).get_inline_instances(request, obj) or []
 
