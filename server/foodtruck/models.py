@@ -64,6 +64,9 @@ class TruckImage(models.Model):
     truck = models.ForeignKey(
         Truck, related_name='images', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.truck.name} {"profile image" if self.is_profile_image else "image"}'
+
     class Meta:
         verbose_name = 'Foodtruck Image'
 
