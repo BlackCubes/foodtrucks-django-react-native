@@ -45,6 +45,9 @@ class Truck(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Foodtruck'
+
 
 class TruckImage(models.Model):
     """
@@ -60,6 +63,9 @@ class TruckImage(models.Model):
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
     truck = models.ForeignKey(
         Truck, related_name='images', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Foodtruck Image'
 
 
 pre_save.connect(slug_generator, sender=Truck)
