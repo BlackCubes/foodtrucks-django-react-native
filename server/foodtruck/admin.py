@@ -69,7 +69,7 @@ class TruckAdmin(admin.ModelAdmin):
         }),
     )
 
-    # To be viewed on the truck since the image model has a foreign key.
+    # To be viewed on the truck since the these models have a foreign key.
     inlines = (TruckImageInline, ProductInline,)
 
     # Adding preview image from the TruckImage.
