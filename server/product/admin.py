@@ -11,8 +11,6 @@ class ProductInline(admin.StackedInline):
     """
     model = Product
 
-    list_display = ('name',)
-
     fieldsets = (
         (None, {'fields': ('name', 'image', 'image_tag', 'info', 'price',
          'quantity', 'is_available',)}),
