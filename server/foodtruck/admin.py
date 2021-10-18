@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .models import Truck, TruckImage
+from product.admin import ProductInline
 
 
 # TRUCK IMAGE INLINE
@@ -69,7 +70,7 @@ class TruckAdmin(admin.ModelAdmin):
     )
 
     # To be viewed on the truck since the image model has a foreign key.
-    inlines = (TruckImageInline,)
+    inlines = (TruckImageInline, ProductInline,)
 
     # Adding preview image from the TruckImage.
     @admin.display(description='Preview')

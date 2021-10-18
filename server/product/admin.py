@@ -4,6 +4,33 @@ from django.utils.html import format_html
 from .models import Product
 
 
+# PRODUCT INLINE
+class ProductInline(admin.StackedInline):
+    """
+    Inline Model Admin for the Product model.
+    """
+    model = Product
+
+    list_display = ('name',)
+
+    fieldsets = (
+        (None, {'fields': ('name', 'image', 'image_tag', 'info', 'price',
+         'quantity', 'is_available',)}),
+    )
+    readonly_fields = ('image_tag',)
+
+    min_num = 1
+
+    # Adding preview image.
+    @admin.display(description='Preview')
+    def image_tag(self, obj):
+        if obj.image:
+            return format_html('<img src="{0}" style="width: 45px; height: 45px" />'.format(obj.image.url))
+        else:
+            return '(No image)'
+
+
+# PRODUCT ADMIN
 class ProductAdmin(admin.ModelAdmin):
     """
     Model Admin for the Product model.
