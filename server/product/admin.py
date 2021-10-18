@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .models import Product
+from social.admin import AddLikeInline, ViewLikeInline
 
 
 # PRODUCT INLINE
@@ -59,6 +60,9 @@ class ProductAdmin(admin.ModelAdmin):
         (None, {'fields': ('name', 'info', 'price',
          'quantity', 'is_available', 'truck',)}),
     )
+
+    # To be viewed on the product since these models have a foreign key.
+    inlines = (AddLikeInline, ViewLikeInline,)
 
     # Adding preview image.
     @admin.display(description='Preview')

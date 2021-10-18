@@ -12,6 +12,9 @@ class Emoji(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
+    def __str__(self):
+        return f'{self.emoji} ({self.name})'
+
 
 class Like(models.Model):
     """
@@ -27,3 +30,9 @@ class Like(models.Model):
         Emoji, related_name='likes', on_delete=models.CASCADE)
     product = models.ForeignKey(
         'product.Product', related_name='likes', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.like} {self.emoji} on {self.product} ({self.product.truck})'
+
+    class Meta:
+        verbose_name = 'Social'
