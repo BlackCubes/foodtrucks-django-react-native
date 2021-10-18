@@ -37,18 +37,42 @@ class EmojiAdmin(admin.ModelAdmin):
         return super(EmojiAdmin, self).get_fieldsets(request, obj)
 
 
-# LIKE INLINE
-class LikeInline(admin.TabularInline):
+# LIKE INLINES
+class ViewLikeInline(admin.TabularInline):
     """
-    Inline Model Admin for the Like model.
+    Inline Model Admin for viewing the Like model.
     """
     model = Like
+    verbose_name = 'View Social'
+    verbose_name_plural = 'View Socials'
 
-    fieldsets = (
-        (None, {'fields': ('like', 'emoji',)}),
-    )
+    extra = 0
 
-    min_num = 1
+    fields = ('like', 'emoji', 'created_at', 'updated_at',)
+    readonly_fields = ('like', 'emoji', 'created_at', 'updated_at',)
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+
+class AddLikeInline(admin.TabularInline):
+    """
+    Inline Model Admin for the adding to the Like model.
+    """
+    model = Like
+    verbose_name = 'Add Social'
+    verbose_name_plural = 'Add Socials'
+
+    extra = 0
+    max_num = 1
+
+    fields = ('like', 'emoji',)
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_view_permission(self, request, obj=None):
+        return False
 
 
 # LIKE ADMIN
