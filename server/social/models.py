@@ -30,3 +30,9 @@ class Like(models.Model):
         Emoji, related_name='likes', on_delete=models.CASCADE)
     product = models.ForeignKey(
         'product.Product', related_name='likes', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.like} {self.emoji} on {self.product} ({self.product.truck})'
+
+    class Meta:
+        verbose_name = 'Social'
