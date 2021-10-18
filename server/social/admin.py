@@ -6,7 +6,9 @@ from .models import Emoji, Like
 
 
 class EmojiAdmin(admin.ModelAdmin):
-    """"""
+    """
+    Model Admin for the Emoji model. 
+    """
     model = Emoji
 
     # View all emojis
@@ -35,7 +37,9 @@ class EmojiAdmin(admin.ModelAdmin):
 
 
 class LikeAdmin(admin.ModelAdmin):
-    """"""
+    """
+    Model Admin for the Like model.
+    """
     model = Like
 
     # View all likes
