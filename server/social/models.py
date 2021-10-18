@@ -13,7 +13,7 @@ class Emoji(models.Model):
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
-        return f'{self.emoji} {self.name}'
+        return f'{self.emoji} ({self.name})'
 
 
 class Like(models.Model):
