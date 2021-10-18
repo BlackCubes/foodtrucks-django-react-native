@@ -5,6 +5,7 @@ from django.utils.html import format_html
 from .models import Emoji, Like
 
 
+# EMOJI ADMIN
 class EmojiAdmin(admin.ModelAdmin):
     """
     Model Admin for the Emoji model. 
@@ -36,6 +37,21 @@ class EmojiAdmin(admin.ModelAdmin):
         return super(EmojiAdmin, self).get_fieldsets(request, obj)
 
 
+# LIKE INLINE
+class LikeInline(admin.TabularInline):
+    """
+    Inline Model Admin for the Like model.
+    """
+    model = Like
+
+    fieldsets = (
+        (None, {'fields': ('like', 'emoji',)}),
+    )
+
+    min_num = 1
+
+
+# LIKE ADMIN
 class LikeAdmin(admin.ModelAdmin):
     """
     Model Admin for the Like model.
