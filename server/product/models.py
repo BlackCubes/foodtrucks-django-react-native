@@ -38,5 +38,8 @@ class Product(models.Model):
     truck = models.ForeignKey(
         'foodtruck.Truck', related_name='products', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 pre_save.connect(slug_generator, sender=Product)
