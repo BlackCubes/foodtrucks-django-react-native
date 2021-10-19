@@ -77,7 +77,12 @@ class ProductAdmin(admin.ModelAdmin):
     # To display the add_fielsets on the creation page.
     def get_fieldsets(self, request, obj=None):
         if not obj:
+            self.inlines = []
             return self.add_fieldset
+
+        self.inlines = (AddLikeInline, ViewLikeInline,
+                        AddReviewInline, ViewReviewInline,)
+
         return super(ProductAdmin, self).get_fieldsets(request, obj)
 
 
