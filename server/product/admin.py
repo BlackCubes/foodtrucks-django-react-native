@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .models import Product
+from review.admin import AddReviewInline, ViewReviewInline
 from social.admin import AddLikeInline, ViewLikeInline
 
 
@@ -62,7 +63,8 @@ class ProductAdmin(admin.ModelAdmin):
     )
 
     # To be viewed on the product since these models have a foreign key.
-    inlines = (AddLikeInline, ViewLikeInline,)
+    inlines = (AddLikeInline, ViewLikeInline,
+               AddReviewInline, ViewReviewInline,)
 
     # Adding preview image.
     @admin.display(description='Preview')
