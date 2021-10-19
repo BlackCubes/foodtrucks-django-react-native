@@ -64,6 +64,9 @@ class EventAdmin(admin.ModelAdmin):
         (None, {'fields': ('date', 'start_time', 'end_time', 'truck',)}),
     )
 
+    # To be viewed on the event since these have a many-to-many key.
+    inlines = (AddEventInline, ViewEventInline,)
+
     # To save extra queries since this is a many-to-many.
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
