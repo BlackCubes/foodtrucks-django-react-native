@@ -15,4 +15,4 @@ class Event(models.Model):
     truck = models.ManyToManyField('foodtruck.Truck', related_name='events')
 
     def __str__(self):
-        return f'{self.date} from {self.start_time} to {self.end_time} UTC'
+        return f'Event Date: {self.date}'
