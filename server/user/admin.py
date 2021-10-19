@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.utils.html import format_html
 
 from .models import CustomUser
+from review.admin import AddReviewInline, ViewReviewInline
 
 
 # USER ADMIN
@@ -39,6 +40,9 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
 
+    # To be viewed on the user since these models have a foreign key.
+    inlines = (AddReviewInline, ViewReviewInline,)
+
     # Adding preview image.
     def image_tag(self, obj):
         if obj.profile_image:
@@ -46,6 +50,17 @@ class CustomUserAdmin(UserAdmin):
         else:
             return '(No image)'
     image_tag.short_description = 'Preview'
+
+    # Even though the UserAdmin does this with the add_fieldsets out of the box than other
+    # admin models, this method still needs to be called to get rid of the inlines during
+    # the creation page.
+    def get_fieldsets(self, request, obj=None):
+        if not obj:
+            self.inlines = []
+            return self.add_fieldsets
+
+        self.inlines = (AddReviewInline, ViewReviewInline,)
+        return super(CustomUserAdmin, self).get_fieldsets(request, obj)
 
 
 admin.site.register(CustomUser, CustomUserAdmin)

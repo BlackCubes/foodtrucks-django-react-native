@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .models import Product
+from review.admin import AddReviewInline, ViewReviewInline
 from social.admin import AddLikeInline, ViewLikeInline
 
 
@@ -62,7 +63,8 @@ class ProductAdmin(admin.ModelAdmin):
     )
 
     # To be viewed on the product since these models have a foreign key.
-    inlines = (AddLikeInline, ViewLikeInline,)
+    inlines = (AddLikeInline, ViewLikeInline,
+               AddReviewInline, ViewReviewInline,)
 
     # Adding preview image.
     @admin.display(description='Preview')
@@ -75,7 +77,12 @@ class ProductAdmin(admin.ModelAdmin):
     # To display the add_fielsets on the creation page.
     def get_fieldsets(self, request, obj=None):
         if not obj:
+            self.inlines = []
             return self.add_fieldset
+
+        self.inlines = (AddLikeInline, ViewLikeInline,
+                        AddReviewInline, ViewReviewInline,)
+
         return super(ProductAdmin, self).get_fieldsets(request, obj)
 
 
