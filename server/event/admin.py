@@ -3,6 +3,43 @@ from django.contrib import admin
 from .models import Event
 
 
+# EVENT INLINES
+class ViewEventInline(admin.TabularInline):
+    """
+    Inline Model Admin for viewing the Event model.
+    """
+    model = Event.truck.through
+    verbose_name = 'View Event'
+    verbose_name_plural = 'View Events'
+
+    extra = 0
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+
+class AddEventInline(admin.TabularInline):
+    """
+    Inline Model Admin for adding to the Event model.
+    """
+    model = Event.truck.through
+    verbose_name = 'Add Event'
+    verbose_name_plural = 'Add Events'
+
+    extra = 0
+    min_num = 1
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_view_permission(self, request, obj=None):
+        return False
+
+
+# EVENT ADMIN
 class EventAdmin(admin.ModelAdmin):
     """
     Model Admin for the Event model.
