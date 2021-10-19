@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .models import Truck, TruckImage
+from event.admin import AddEventInline, ViewEventInline
 from product.admin import ProductInline
 
 
@@ -69,8 +70,9 @@ class TruckAdmin(admin.ModelAdmin):
         }),
     )
 
-    # To be viewed on the truck since the these models have a foreign key.
-    inlines = (TruckImageInline, ProductInline,)
+    # To be viewed on the truck since these models have a foreign/many-to-many key.
+    inlines = (TruckImageInline, ProductInline,
+               AddEventInline, ViewEventInline,)
 
     # Adding preview image from the TruckImage.
     @admin.display(description='Preview')
