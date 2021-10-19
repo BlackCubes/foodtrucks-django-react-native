@@ -79,7 +79,10 @@ class EventAdmin(admin.ModelAdmin):
 
     def get_fieldsets(self, request, obj=None):
         if not obj:
+            self.inlines = []
             return self.add_fieldsets
+
+        self.inlines = (AddEventInline, ViewEventInline,)
         return super(EventAdmin, self).get_fieldsets(request, obj)
 
 
