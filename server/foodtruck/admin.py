@@ -70,7 +70,7 @@ class TruckAdmin(admin.ModelAdmin):
         }),
     )
 
-    # To be viewed on the truck since the these models have a foreign key.
+    # To be viewed on the truck since these models have a foreign/many-to-many key.
     inlines = (TruckImageInline, ProductInline,
                AddEventInline, ViewEventInline,)
 
