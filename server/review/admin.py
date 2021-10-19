@@ -5,6 +5,44 @@ from django.utils.html import format_html
 from .models import Review
 
 
+# REVIEW INLINES
+class ViewReviewInline(admin.TabularInline):
+    """
+    Inline Model Admin for viewing the Review model.
+    """
+    model = Review
+    verbose_name = 'View Review'
+    verbose_name_plural = 'View Reviews'
+
+    extra = 0
+
+    fields = ('review', 'product', 'user', 'created_at', 'updated_at',)
+    readonly_fields = ('product', 'user', 'created_at', 'updated_at')
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+
+class AddReviewInline(admin.TabularInline):
+    """
+    Inline Model Admin for adding to the Review model.
+    """
+    model = Review
+    verbose_name = 'Add Review'
+    verbose_name_plural = 'Add Reviews'
+
+    extra = 0
+    max_num = 1
+
+    fields = ('review', 'product', 'user',)
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_view_permission(self, request, obj=None):
+        return False
+
+
 # REVIEW ADMIN
 class ReviewAdmin(admin.ModelAdmin):
     """
