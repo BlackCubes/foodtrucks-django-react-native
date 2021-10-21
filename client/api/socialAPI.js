@@ -5,7 +5,7 @@ export const getAllEmojis = (headers) =>
     setTimeout(() => {
       try {
         axiosInit('socials')
-          .get('emojis', headers)
+          .get('emojis/', headers)
           .then((res) => resolve(res.data))
           .catch((err) => {
             if (err.response) {
