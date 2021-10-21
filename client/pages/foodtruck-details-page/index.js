@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect } from 'react';
 import { Button, FlatList, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import { EmojiList } from '../../components';
+import { EmojiList, SocialList } from '../../components';
 
 import { retrieveOneFoodtruck } from '../../old-redux/actions/foodtruckActions';
 import { retrieveAllProductsFromFoodtruck } from '../../old-redux/actions/productActions';
@@ -99,15 +99,11 @@ const FoodtruckDetailsPage = ({
 
             <Text>Price: {product_item.price}</Text>
 
-            {foodtruckSocials
-              .filter((data) => data.product === product_item.slug)
-              .map((social_item) => (
-                <View key={social_item.uuid}>
-                  <Text>
-                    {social_item.emoji} {social_item.like}
-                  </Text>
-                </View>
-              ))}
+            <SocialList
+              socials={foodtruckSocials.filter(
+                (data) => data.product === product_item.slug
+              )}
+            />
 
             <EmojiList
               addSocial={commenceAddSocial}
