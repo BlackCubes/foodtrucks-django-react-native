@@ -2,6 +2,8 @@ import React, { useEffect, useLayoutEffect } from 'react';
 import { Button, FlatList, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 
+import { EmojiList } from '../../components';
+
 import { retrieveOneProduct } from '../../old-redux/actions/productActions';
 import {
   addReview,
@@ -99,16 +101,10 @@ const ProductDetailsPage = ({
         )}
       />
 
-      <FlatList
-        data={emojis}
-        keyExtractor={(item) => item.uuid}
-        ListEmptyComponent={() => <Text>No emojis!</Text>}
-        renderItem={({ item }) => (
-          <Button
-            title={item.emoji}
-            onPress={() => commenceAddSocial(item.emoji, slug, 1)}
-          />
-        )}
+      <EmojiList
+        addSocial={commenceAddSocial}
+        emojis={emojis}
+        productSlug={slug}
       />
 
       <View
