@@ -2,6 +2,8 @@ import React, { useEffect, useLayoutEffect } from 'react';
 import { Button, FlatList, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 
+import { EmojiList } from '../../components';
+
 import { retrieveOneFoodtruck } from '../../old-redux/actions/foodtruckActions';
 import { retrieveAllProductsFromFoodtruck } from '../../old-redux/actions/productActions';
 import { retrieveAllReviewsFromFoodtruck } from '../../old-redux/actions/reviewActions';
@@ -107,15 +109,11 @@ const FoodtruckDetailsPage = ({
                 </View>
               ))}
 
-            {emojis.map((emoji_item) => (
-              <Button
-                key={emoji_item.uuid}
-                title={emoji_item.emoji}
-                onPress={() =>
-                  commenceAddSocial(emoji_item.emoji, product_item.slug, 1)
-                }
-              />
-            ))}
+            <EmojiList
+              addSocial={commenceAddSocial}
+              emojis={emojis}
+              productSlug={product_item.slug}
+            />
 
             <Button
               title="View"
