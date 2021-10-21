@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect } from 'react';
 import { Button, FlatList, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import { EmojiList } from '../../components';
+import { EmojiList, SocialList } from '../../components';
 
 import { retrieveOneProduct } from '../../old-redux/actions/productActions';
 import {
@@ -88,18 +88,7 @@ const ProductDetailsPage = ({
         }}
       />
 
-      <FlatList
-        data={productSocials}
-        keyExtractor={(item) => item.uuid}
-        ListEmptyComponent={() => <Text>No Socials!</Text>}
-        renderItem={({ item }) => (
-          <View>
-            <Text>
-              {item.emoji} {item.like}
-            </Text>
-          </View>
-        )}
-      />
+      <SocialList socials={productSocials} />
 
       <EmojiList
         addSocial={commenceAddSocial}
