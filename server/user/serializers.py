@@ -15,8 +15,8 @@ class RegisterSerializer(serializers.ModelSerializer):
     """
     email = serializers.EmailField(required=True, validators=[
                                    UniqueValidator(queryset=CustomUser.objects.all(), message='This email already exists.')])
-    username = serializers.CharField(
-        required=True, min_length=4, max_length=25)
+    username = serializers.CharField(required=True, min_length=4, max_length=25, validators=[
+                                     UniqueValidator(queryset=CustomUser.objects.all(), message='This username already exists.')])
     password = serializers.CharField(required=True, validators=[
                                      validate_password], write_only=True)
     password_confirmation = serializers.CharField(
