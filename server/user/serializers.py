@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
@@ -44,3 +45,45 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+
+class LoginSerializer(serializers.ModelSerializer):
+    """
+    Serializer on the User model.
+
+    Fields: email and password.
+
+    Logins the user.
+    """
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+    class Meta:
+        model = CustomUser
+        fields = ('email', 'password',)
+
+    def validate(self, data):
+        email = data.get('email', None)
+        password = data.get('password', None)
+
+        if email is None:
+            raise serializers.ValidationError('An email is required.')
+
+        if password is None:
+            raise serializers.ValidationError('A password is required.')
+
+        validate_password(password)
+
+        user = authenticate(username=email, password=password)
+
+        if user is None:
+            raise serializers.ValidationError(
+                'Sorry, could not find your account.')
+
+        if not user.is_active:
+            raise serializers.ValidationError('User has been deactivated.')
+
+        return {
+            'email': user.email,
+            'username': user.username,
+        }
