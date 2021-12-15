@@ -150,6 +150,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     Changes the user's email and/or username.
     """
+    email = serializers.EmailField(required=False, validators=[UniqueValidator(
+        queryset=CustomUser.objects.all(), message='This email already exists.')])
+    username = serializers.CharField(required=False, min_length=4, max_length=25, validators=[
+                                     UniqueValidator(queryset=CustomUser.objects.all(), message='This username already exists.')])
+
     class Meta:
         model = CustomUser
         fields = ('email', 'username',)
