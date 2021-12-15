@@ -86,3 +86,30 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+
+class UpdateProfileSerializer(serializers.ModelSerializer):
+    """
+    Serializer on the User model.
+
+    Fields: email and username.
+
+    Changes the user's email and/or username.
+    """
+    class Meta:
+        model = CustomUser
+        fields = ('email', 'username',)
+
+    def update(self, instance, validated_data):
+        password = validated_data.pop('password', None)
+
+        if password is not None:
+            raise serializers.ValidationError(
+                "This route is not for changing passwords. Please use '/change-password' to change your password.")
+
+        for (key, value) in validated_data.items():
+            setattr(instance, key, value)
+
+        instance.save()
+
+        return instance
