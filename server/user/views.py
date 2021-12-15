@@ -1,11 +1,41 @@
 from rest_framework import status
-from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.generics import RetrieveUpdateAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .renderers import UserJSONRenderer
-from .serializers import LoginSerializer, RegisterSerializer, UserProfileSerializer
+from .serializers import ChangePasswordSerializer, LoginSerializer, RegisterSerializer, UserProfileSerializer
+
+
+class ChangePasswordUpdateAPIView(UpdateAPIView):
+    """
+    API view to update a user's password to the User model.
+
+    Permissions: IsAuthenticated.
+
+    Renderers: UserJSONRenderer.
+
+    Serializer: ChangePasswordSerializer.
+
+    Request Type: PUT and PATCH.
+    """
+    permission_classes = (IsAuthenticated,)
+    renderer_classes = (UserJSONRenderer,)
+    serializer_class = ChangePasswordSerializer
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.serializer_class(
+            request.user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        data = {
+            'status': 'success',
+            'data': serializer.data,
+        }
+
+        return Response(data=data, status=status.HTTP_200_OK)
 
 
 class LoginAPIView(APIView):
