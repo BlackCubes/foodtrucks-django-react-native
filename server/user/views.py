@@ -20,4 +20,9 @@ class RegisterAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        data = {
+            'status': 'success',
+            'data': serializer.data,
+        }
+
+        return Response(data=data, status=status.HTTP_201_CREATED)
