@@ -88,7 +88,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
-class UpdateProfileSerializer(serializers.ModelSerializer):
+class UserProfileSerializer(serializers.ModelSerializer):
     """
     Serializer on the User model.
 
