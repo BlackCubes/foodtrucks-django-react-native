@@ -1,10 +1,11 @@
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .renderers import UserJSONRenderer
-from .serializers import LoginSerializer, RegisterSerializer
+from .serializers import LoginSerializer, RegisterSerializer, UserProfileSerializer
 
 
 class LoginAPIView(APIView):
@@ -62,3 +63,38 @@ class RegisterAPIView(APIView):
         }
 
         return Response(data=data, status=status.HTTP_201_CREATED)
+
+
+class UserProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
+    """
+    API view to either retrieve or update a user to the User model.
+
+    Permissions: IsAuthenticated.
+
+    Renderers: UserJSONRenderer.
+
+    Serializer: UserProfileSerializer.
+
+    Request Type: GET, PUT, and PATCH.
+    """
+    permission_classes = (IsAuthenticated,)
+    renderer_classes = (UserJSONRenderer,)
+    serializer_class = UserProfileSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        serializer = self.serializer_class(request.user)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.serializer_class(
+            request.user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        data = {
+            'status': 'success',
+            'data': serializer.data,
+        }
+
+        return Response(data=data, status=status.HTTP_200_OK)
