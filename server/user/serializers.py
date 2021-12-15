@@ -27,22 +27,19 @@ class LoginSerializer(serializers.ModelSerializer):
         password = data.get('password', None)
 
         if email is None:
-            raise serializers.ValidationError(
-                {'email': 'An email is required.'})
+            raise serializers.ValidationError('An email is required.')
 
         if password is None:
-            raise serializers.ValidationError(
-                {'password': 'A password is required.'})
+            raise serializers.ValidationError('A password is required.')
 
         user = authenticate(username=email, password=password)
 
         if user is None:
             raise serializers.ValidationError(
-                {'error': 'Sorry, could not find your account.'})
+                'Sorry, could not find your account.')
 
         if not user.is_active:
-            raise serializers.ValidationError(
-                {'error': 'User has been deactivated.'})
+            raise serializers.ValidationError('User has been deactivated.')
 
         return {
             'email': user.email,
