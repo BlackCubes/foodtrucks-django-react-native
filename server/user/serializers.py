@@ -6,6 +6,60 @@ from rest_framework.validators import UniqueValidator
 from .models import CustomUser
 
 
+class ChangePasswordSerializer(serializers.ModelSerializer):
+    """
+    Serializer on the User model.
+
+    Fields: old_password, old_password_confirmation, and new_password.
+
+    Changes the user's password.
+    """
+    old_password = serializers.CharField(required=True, validators=[
+                                         validate_password], write_only=True)
+    old_password_confirmation = serializers.CharField(
+        required=True, validators=[validate_password], write_only=True)
+    new_password = serializers.CharField(required=True, validators=[
+                                         validate_password], write_only=True)
+
+    class Meta:
+        model = CustomUser
+        fields = ('old_password', 'old_password_confirmation', 'new_password',)
+
+    def validate_old_password(self, old_password):
+        user = self.context['request'].user
+
+        if not user.check_password(old_password):
+            raise serializers.ValidationError(
+                'The old password is not correct.')
+
+        return old_password
+
+    def validate_old_password_confirmation(self, old_password_confirmation):
+        data = self.get_initial()
+
+        old_password = data.get('password', None)
+
+        if old_password is None:
+            raise serializers.ValidationError('Your old password is required.')
+
+        if old_password != old_password_confirmation:
+            raise serializers.ValidationError('The passwords do not match.')
+
+        return old_password_confirmation
+
+    def update(self, instance, validated_data):
+        user = self.context['request'].user
+
+        if user.uuid != instance.uuid:
+            raise serializers.ValidationError(
+                'You do not have permission for this user.')
+
+        instance.set_password(validated_data['new_password'])
+        instance.save()
+
+        return instance
+
+
 class LoginSerializer(serializers.ModelSerializer):
     """
     Serializer on the User model.
@@ -110,60 +164,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         for (key, value) in validated_data.items():
             setattr(instance, key, value)
 
-        instance.save()
-
-        return instance
-
-
-class UpdatePasswordSerializer(serializers.ModelSerializer):
-    """
-    Serializer on the User model.
-
-    Fields: old_password, old_password_confirmation, and new_password.
-
-    Changes the user's password.
-    """
-    old_password = serializers.CharField(required=True, validators=[
-                                         validate_password], write_only=True)
-    old_password_confirmation = serializers.CharField(
-        required=True, validators=[validate_password], write_only=True)
-    new_password = serializers.CharField(required=True, validators=[
-                                         validate_password], write_only=True)
-
-    class Meta:
-        model = CustomUser
-        fields = ('old_password', 'old_password_confirmation', 'new_password',)
-
-    def validate_old_password(self, old_password):
-        user = self.context['request'].user
-
-        if not user.check_password(old_password):
-            raise serializers.ValidationError(
-                'The old password is not correct.')
-
-        return old_password
-
-    def validate_old_password_confirmation(self, old_password_confirmation):
-        data = self.get_initial()
-
-        old_password = data.get('password', None)
-
-        if old_password is None:
-            raise serializers.ValidationError('Your old password is required.')
-
-        if old_password != old_password_confirmation:
-            raise serializers.ValidationError('The passwords do not match.')
-
-        return old_password_confirmation
-
-    def update(self, instance, validated_data):
-        user = self.context['request'].user
-
-        if user.uuid != instance.uuid:
-            raise serializers.ValidationError(
-                'You do not have permission for this user.')
-
-        instance.set_password(validated_data['new_password'])
         instance.save()
 
         return instance
