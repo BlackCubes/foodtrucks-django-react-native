@@ -14,7 +14,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     Creates a new user.
     """
     email = serializers.EmailField(required=True, validators=[
-                                   UniqueValidator(queryset=CustomUser.objects.all())])
+                                   UniqueValidator(queryset=CustomUser.objects.all(), message='This email already exists.')])
     username = serializers.CharField(
         required=True, min_length=4, max_length=25)
     password = serializers.CharField(required=True, validators=[
