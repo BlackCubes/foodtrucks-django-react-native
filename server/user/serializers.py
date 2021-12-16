@@ -50,12 +50,6 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         return old_password_confirmation
 
     def update(self, instance, validated_data):
-        user = self.context['request'].user
-
-        if user.uuid != instance.uuid:
-            raise serializers.ValidationError(
-                'You do not have permission for this user.')
-
         instance.set_password(validated_data['new_password'])
         instance.save()
 
