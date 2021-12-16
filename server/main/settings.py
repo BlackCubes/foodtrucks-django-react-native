@@ -145,6 +145,12 @@ CORS_ALLOWED_ORIGINS = [
 
 STATIC_URL = '/static/'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'main.apps.user.backends.JWTAuthentication',
+    ),
+}
+
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
