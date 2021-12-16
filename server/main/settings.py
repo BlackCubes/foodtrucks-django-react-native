@@ -147,7 +147,7 @@ STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'main.apps.user.backends.JWTAuthentication',
+        'user.backends.JWTAuthentication',
     ),
 }
 
