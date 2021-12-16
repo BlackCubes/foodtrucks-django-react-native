@@ -40,7 +40,7 @@ class JWTAuthentication(authentication.BaseAuthentication):
                 'Invalid authentication. Could not decode token.')
 
         try:
-            user = CustomUser.objects.get(uuid=payload['uuid'])
+            user = CustomUser.objects.get(pk=payload['id'])
         except CustomUser.DoesNotExist:
             raise exceptions.AuthenticationFailed(
                 'User could not be found with this token.')

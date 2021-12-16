@@ -59,8 +59,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         dt = datetime.now() + timedelta(minutes=60)
 
         token = jwt.encode({
-            'uuid': self.uuid,
-            'exp': int(dt.strftime('%s'))
+            'id': self.pk,
+            'exp': dt.utcfromtimestamp(dt.timestamp())
         }, settings.SECRET_KEY, algorithm='HS256')
 
-        return token.decode('utf-8')
+        return token
