@@ -17,6 +17,4 @@ class UserJSONRenderer(JSONRenderer):
         if token is not None and isinstance(token, bytes):
             data['token'] = token.decode('utf-8')
 
-        return json.dumps({
-            'data': data,
-        })
+        return json.dumps(data)
