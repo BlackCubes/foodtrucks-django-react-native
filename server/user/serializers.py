@@ -23,7 +23,9 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('old_password', 'old_password_confirmation', 'new_password',)
+        fields = ('old_password', 'old_password_confirmation',
+                  'new_password', 'token',)
+        read_only_fields = ('token',)
 
     def validate_old_password(self, old_password):
         user = self.context['request'].user
@@ -48,12 +50,6 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         return old_password_confirmation
 
     def update(self, instance, validated_data):
-        user = self.context['request'].user
-
-        if user.uuid != instance.uuid:
-            raise serializers.ValidationError(
-                'You do not have permission for this user.')
-
         instance.set_password(validated_data['new_password'])
         instance.save()
 
@@ -71,10 +67,11 @@ class LoginSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
     password = serializers.CharField(required=True, validators=[
                                      validate_password], write_only=True)
+    token = serializers.CharField(max_length=255, read_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'password',)
+        fields = ('email', 'password', 'token',)
 
     def validate(self, data):
         email = data.get('email', None)
@@ -98,6 +95,7 @@ class LoginSerializer(serializers.ModelSerializer):
         return {
             'email': user.email,
             'username': user.username,
+            'token': user.token,
         }
 
 
@@ -117,10 +115,12 @@ class RegisterSerializer(serializers.ModelSerializer):
                                      validate_password], write_only=True)
     password_confirmation = serializers.CharField(
         required=True, write_only=True)
+    token = serializers.CharField(max_length=255, read_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'username', 'password', 'password_confirmation')
+        fields = ('email', 'username', 'password',
+                  'password_confirmation', 'token',)
 
     def validate_password_confirmation(self, password_confirmation):
         data = self.get_initial()
@@ -157,7 +157,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'username',)
+        fields = ('email', 'username', 'token',)
+        read_only_fields = ('token',)
 
     def update(self, instance, validated_data):
         password = validated_data.pop('password', None)

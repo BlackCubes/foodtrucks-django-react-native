@@ -27,4 +27,6 @@ urlpatterns = [
     path('api/v1/reviews/', include('review.urls')),
     path('api/v1/socials/', include('social.urls')),
     path('api/v1/users/', include('user.urls')),
+    # DEBUG
+    path('__debug__/', include('debug_toolbar.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
