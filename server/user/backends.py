@@ -7,7 +7,9 @@ from .models import CustomUser
 
 
 class JWTAuthentication(authentication.BaseAuthentication):
-    """"""
+    """
+    Custom backend to support JWT and authentication.
+    """
     authentication_header_prefix = 'Bearer'
 
     def authenticate(self, request):
