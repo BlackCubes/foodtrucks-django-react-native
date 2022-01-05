@@ -30,3 +30,7 @@ urlpatterns = [
     # DEBUG
     path('__debug__/', include('debug_toolbar.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+handler404 = 'main.utils.error_404'
+handler500 = 'main.utils.error_500'
