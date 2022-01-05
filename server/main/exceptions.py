@@ -13,6 +13,7 @@ def custom_exception_handler(exc, context):
 
     if response is not None:
         response.data['status_code'] = response.status_code
+        response.data['status'] = 'fail'
 
     exception_class = exc.__class__.__name__
 
@@ -25,6 +26,7 @@ def custom_exception_handler(exc, context):
 def _handle_authentication_error(exc, context, response):
     response.data = {
         'status_code': response.status_code,
+        'status': 'fail',
         'error': 'Please login to continue.',
     }
 
