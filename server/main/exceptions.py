@@ -27,7 +27,9 @@ def _handle_authentication_error(exc, context, response):
     response.data = {
         'status_code': response.status_code,
         'status': 'fail',
-        'error': 'Please login to continue.',
+        'data': {
+            'message': 'Please login to continue.',
+        },
     }
 
     return response
