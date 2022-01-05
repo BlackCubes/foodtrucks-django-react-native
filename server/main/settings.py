@@ -150,6 +150,7 @@ CORS_ALLOWED_ORIGINS = [
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'main.exceptions.custom_exception_handler',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'user.backends.JWTAuthentication',
     ),
