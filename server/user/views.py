@@ -31,6 +31,7 @@ class ChangePasswordUpdateAPIView(UpdateAPIView):
         serializer.save()
 
         data = {
+            'statusCode': status.HTTP_200_OK,
             'status': 'success',
             'data': serializer.data,
         }
@@ -59,6 +60,7 @@ class LoginAPIView(APIView):
         serializer.is_valid(raise_exception=True)
 
         data = {
+            'statusCode': status.HTTP_200_OK,
             'status': 'success',
             'data': serializer.data,
         }
@@ -88,6 +90,7 @@ class RegisterAPIView(APIView):
         serializer.save()
 
         data = {
+            'statusCode': status.HTTP_201_CREATED,
             'status': 'success',
             'data': serializer.data,
         }
@@ -123,6 +126,7 @@ class UserProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
         serializer.save()
 
         data = {
+            'statusCode': status.HTTP_200_OK,
             'status': 'success',
             'data': serializer.data,
         }
