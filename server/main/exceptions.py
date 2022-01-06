@@ -14,7 +14,7 @@ def custom_exception_handler(exc, context):
     if response is not None:
         custom_response = {}
 
-        custom_response['status_code'] = response.status_code
+        custom_response['statusCode'] = response.status_code
         custom_response['status'] = 'fail'
 
         condense_messages = []
@@ -39,7 +39,7 @@ def custom_exception_handler(exc, context):
 
 def _handle_authentication_error(exc, context, response):
     response.data = {
-        'status_code': response.status_code,
+        'statusCode': response.status_code,
         'status': 'fail',
         'data': {
             'message': 'Please login to continue.',
