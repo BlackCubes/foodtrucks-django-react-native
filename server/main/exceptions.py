@@ -12,8 +12,22 @@ def custom_exception_handler(exc, context):
     response = exception_handler(exc, context)
 
     if response is not None:
-        response.data['status_code'] = response.status_code
-        response.data['status'] = 'fail'
+        custom_response = {}
+
+        custom_response['status_code'] = response.status_code
+        custom_response['status'] = 'fail'
+
+        condense_messages = []
+
+        for value in response.data.values():
+            if not isinstance(value, str):
+                condense_messages.append(' '.join(value))
+            else:
+                condense_messages.append(value)
+
+        custom_response['data'] = {'message': ' '.join(condense_messages)}
+
+        response.data = custom_response
 
     exception_class = exc.__class__.__name__
 
