@@ -68,3 +68,12 @@ def error_500(request):
     })
 
     return response
+
+
+def final_success_response(response):
+    if not response.exception:
+        response.data = {
+            'statusCode': response.status_code,
+            'status': 'success',
+            'data': response.data,
+        }

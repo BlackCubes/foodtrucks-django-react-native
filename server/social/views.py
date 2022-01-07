@@ -4,6 +4,8 @@ from rest_framework.permissions import AllowAny
 from .models import Emoji, Like
 from .serializers import EmojiSerializer, LikeSerializer
 
+from main.utils import final_success_response
+
 
 # Emoji views:
 class EmojiListAPIView(generics.ListAPIView):
@@ -17,12 +19,7 @@ class EmojiListAPIView(generics.ListAPIView):
     queryset = Emoji.objects.all()
 
     def finalize_response(self, request, response, *args, **kwargs):
-        if not response.exception:
-            response.data = {
-                'statusCode': response.status_code,
-                'status': 'success',
-                'data': response.data,
-            }
+        final_success_response(response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -41,12 +38,7 @@ class EmojiDetailAPIView(generics.RetrieveAPIView):
     lookup_field = 'uuid'
 
     def finalize_response(self, request, response, *args, **kwargs):
-        if not response.exception:
-            response.data = {
-                'statusCode': response.status_code,
-                'status': 'success',
-                'data': response.data,
-            }
+        final_success_response(response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -64,12 +56,7 @@ class LikeListCreateAPIView(generics.ListCreateAPIView):
     queryset = Like.objects.all()
 
     def finalize_response(self, request, response, *args, **kwargs):
-        if not response.exception:
-            response.data = {
-                'statusCode': response.status_code,
-                'status': 'success',
-                'data': response.data,
-            }
+        final_success_response(response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -88,11 +75,6 @@ class LikeDetailUpdateAPIView(generics.RetrieveUpdateAPIView):
     lookup_field = 'uuid'
 
     def finalize_response(self, request, response, *args, **kwargs):
-        if not response.exception:
-            response.data = {
-                'statusCode': response.status_code,
-                'status': 'success',
-                'data': response.data,
-            }
+        final_success_response(response)
 
         return super().finalize_response(request, response, *args, **kwargs)
