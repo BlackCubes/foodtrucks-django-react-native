@@ -1,12 +1,18 @@
 from rest_framework import generics, viewsets
 from rest_framework.exceptions import NotFound
+from rest_framework.permissions import AllowAny
 
 from .models import Truck
 from .serializers import TruckSerializer
+
+from main.utils import final_success_response
+
 from product.models import Product
 from product.serializers import ProductSerializer
+
 from review.models import Review
 from review.serializers import ReviewSerializer
+
 from social.models import Like
 from social.serializers import LikeSerializer
 
@@ -18,8 +24,14 @@ class TruckListAPIView(generics.ListAPIView):
 
     Request Type: GET.
     """
-    queryset = Truck.objects.all().order_by('name')
+    permission_classes = (AllowAny,)
     serializer_class = TruckSerializer
+    queryset = Truck.objects.all().order_by('name')
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        final_success_response(response)
+
+        return super().finalize_response(request, response, *args, **kwargs)
 
 
 class TruckDetailAPIView(generics.RetrieveAPIView):
@@ -30,9 +42,15 @@ class TruckDetailAPIView(generics.RetrieveAPIView):
 
     Request Type: GET.
     """
+    permission_classes = (AllowAny,)
+    serializer_class = TruckSerializer
     queryset = Truck.objects.all().order_by('name')
     lookup_field = 'slug'
-    serializer_class = TruckSerializer
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        final_success_response(response)
+
+        return super().finalize_response(request, response, *args, **kwargs)
 
 
 class TruckProductsModelViewSet(viewsets.ModelViewSet):
@@ -44,8 +62,14 @@ class TruckProductsModelViewSet(viewsets.ModelViewSet):
 
     Request Synonymous: GET, POST, PATCH, PUT, DELETE.
     """
-    queryset = Product.objects.all().select_related('truck').order_by('slug')
+    permission_classes = (AllowAny,)
     serializer_class = ProductSerializer
+    queryset = Product.objects.all().select_related('truck').order_by('slug')
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        final_success_response(response)
+
+        return super().finalize_response(request, response, *args, **kwargs)
 
     def get_queryset(self, *args, **kwargs):
         truck_slug = self.kwargs.get('truck_slug')
@@ -67,9 +91,15 @@ class TruckLikesModelViewSet(viewsets.ModelViewSet):
 
     Request Synonymous: GET, POST, PATCH, PUT, DELETE.
     """
+    permission_classes = (AllowAny,)
+    serializer_class = LikeSerializer
     queryset = Like.objects.all().select_related(
         'product').select_related('emoji').order_by('product__slug')
-    serializer_class = LikeSerializer
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        final_success_response(response)
+
+        return super().finalize_response(request, response, *args, **kwargs)
 
     def get_queryset(self, *args, **kwargs):
         truck_slug = self.kwargs.get('truck_slug')
@@ -91,9 +121,15 @@ class TruckReviewsModelViewSet(viewsets.ModelViewSet):
 
     Request Synonymous: GET, POST, PATCH, PUT, DELETE.
     """
+    permission_classes = (AllowAny,)
+    serializer_class = ReviewSerializer
     queryset = Review.objects.all().select_related(
         'product').select_related('user').order_by('created_at')
-    serializer_class = ReviewSerializer
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        final_success_response(response)
+
+        return super().finalize_response(request, response, *args, **kwargs)
 
     def get_queryset(self, *args, **kwargs):
         truck_slug = self.kwargs.get('truck_slug')
