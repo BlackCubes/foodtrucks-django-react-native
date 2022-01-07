@@ -13,8 +13,8 @@ class EmojiListAPIView(generics.ListAPIView):
     Request Type: GET.
     """
     permission_classes = (AllowAny,)
-    queryset = Emoji.objects.all()
     serializer_class = EmojiSerializer
+    queryset = Emoji.objects.all()
 
     def finalize_response(self, request, response, *args, **kwargs):
         if not response.exception:
@@ -36,9 +36,9 @@ class EmojiDetailAPIView(generics.RetrieveAPIView):
     Request Type: GET.
     """
     permission_classes = (AllowAny,)
+    serializer_class = EmojiSerializer
     queryset = Emoji.objects.all()
     lookup_field = 'uuid'
-    serializer_class = EmojiSerializer
 
     def finalize_response(self, request, response, *args, **kwargs):
         if not response.exception:
@@ -60,8 +60,8 @@ class LikeListCreateAPIView(generics.ListCreateAPIView):
     Request Type: GET and POST.
     """
     permission_classes = (AllowAny,)
-    queryset = Like.objects.all()
     serializer_class = LikeSerializer
+    queryset = Like.objects.all()
 
     def finalize_response(self, request, response, *args, **kwargs):
         if not response.exception:
@@ -83,9 +83,9 @@ class LikeDetailUpdateAPIView(generics.RetrieveUpdateAPIView):
     Request Type: GET, PUT, and PATCH.
     """
     permission_classes = (AllowAny,)
+    serializer_class = LikeSerializer
     queryset = Like.objects.all()
     lookup_field = 'uuid'
-    serializer_class = LikeSerializer
 
     def finalize_response(self, request, response, *args, **kwargs):
         if not response.exception:
