@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.permissions import AllowAny
 
 from .models import Emoji, Like
 from .serializers import EmojiSerializer, LikeSerializer
@@ -11,8 +12,19 @@ class EmojiListAPIView(generics.ListAPIView):
 
     Request Type: GET.
     """
+    permission_classes = (AllowAny,)
     queryset = Emoji.objects.all()
     serializer_class = EmojiSerializer
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        if not response.exception:
+            response.data = {
+                'statusCode': response.status_code,
+                'status': 'success',
+                'data': response.data,
+            }
+
+        return super().finalize_response(request, response, *args, **kwargs)
 
 
 class EmojiDetailAPIView(generics.RetrieveAPIView):
@@ -23,9 +35,20 @@ class EmojiDetailAPIView(generics.RetrieveAPIView):
 
     Request Type: GET.
     """
+    permission_classes = (AllowAny,)
     queryset = Emoji.objects.all()
     lookup_field = 'uuid'
     serializer_class = EmojiSerializer
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        if not response.exception:
+            response.data = {
+                'statusCode': response.status_code,
+                'status': 'success',
+                'data': response.data,
+            }
+
+        return super().finalize_response(request, response, *args, **kwargs)
 
 
 # Like views:
@@ -36,8 +59,19 @@ class LikeListCreateAPIView(generics.ListCreateAPIView):
 
     Request Type: GET and POST.
     """
+    permission_classes = (AllowAny,)
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        if not response.exception:
+            response.data = {
+                'statusCode': response.status_code,
+                'status': 'success',
+                'data': response.data,
+            }
+
+        return super().finalize_response(request, response, *args, **kwargs)
 
 
 class LikeDetailUpdateAPIView(generics.RetrieveUpdateAPIView):
@@ -48,6 +82,17 @@ class LikeDetailUpdateAPIView(generics.RetrieveUpdateAPIView):
 
     Request Type: GET, PUT, and PATCH.
     """
+    permission_classes = (AllowAny,)
     queryset = Like.objects.all()
     lookup_field = 'uuid'
     serializer_class = LikeSerializer
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        if not response.exception:
+            response.data = {
+                'statusCode': response.status_code,
+                'status': 'success',
+                'data': response.data,
+            }
+
+        return super().finalize_response(request, response, *args, **kwargs)
