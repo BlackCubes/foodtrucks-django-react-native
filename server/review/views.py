@@ -1,7 +1,10 @@
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from .models import Review
 from .serializers import ReviewSerializer
+
+from main.utils import final_success_response
 
 
 class ReviewListCreateAPIView(generics.ListCreateAPIView):
@@ -10,8 +13,14 @@ class ReviewListCreateAPIView(generics.ListCreateAPIView):
 
     Request Type: GET and POST.
     """
-    queryset = Review.objects.all().order_by('created_at')
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = ReviewSerializer
+    queryset = Review.objects.all().order_by('created_at')
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        final_success_response(response)
+
+        return super().finalize_response(request, response, *args, **kwargs)
 
 
 class ReviewDetailUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -22,6 +31,12 @@ class ReviewDetailUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     Request Type: GET, PUT, PATCH, and DELETE.
     """
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ReviewSerializer
     queryset = Review.objects.all().order_by('created_at')
     lookup_field = 'uuid'
-    serializer_class = ReviewSerializer
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        final_success_response(response)
+
+        return super().finalize_response(request, response, *args, **kwargs)
