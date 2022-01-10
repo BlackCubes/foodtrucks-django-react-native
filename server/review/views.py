@@ -62,6 +62,7 @@ class ReviewDetailUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
     Request Type: GET, PUT, PATCH, and DELETE.
     """
     permission_classes = (IsAuthenticated,)
+    renderer_classes = (UserJSONRenderer,)
     serializer_class = ReviewSerializer
     queryset = Review.objects.all().order_by('created_at')
     lookup_field = 'uuid'
