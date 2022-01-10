@@ -6,6 +6,36 @@ from .serializers import ReviewSerializer
 
 from main.utils import final_success_response
 
+from user.renderers import UserJSONRenderer
+
+
+class ReviewListAPIView(generics.ListAPIView):
+    """
+    API view for authenticated users to retrieve their reviews from the Review model.
+
+    Permissions: IsAuthenticated.
+
+    Renderers: UserJSONRenderer.
+
+    Serializer: ReviewSerializer.
+
+    Request Type: GET.
+    """
+    permission_classes = (IsAuthenticated,)
+    renderer_classes = (UserJSONRenderer,)
+    serializer_class = ReviewSerializer
+    queryset = Review.objects.all().order_by('created_at')
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        final_success_response(response)
+
+        return super().finalize_response(request, response, *args, **kwargs)
+
+    def get_queryset(self, *args, **kwargs):
+        authenticated_user = self.request.user
+
+        return self.queryset.filter(user=authenticated_user)
+
 
 class ReviewListCreateAPIView(generics.ListCreateAPIView):
     """
