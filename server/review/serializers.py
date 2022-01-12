@@ -24,7 +24,8 @@ class ReviewSerializer(serializers.ModelSerializer):
             'blank': 'The review cannot be empty.',
             'max_length': 'The review should be no more than 280 characters.'})
     user = serializers.SlugRelatedField(
-        slug_field='username', queryset=CustomUser.objects.all(), default=serializers.CurrentUserDefault())
+        slug_field='username', queryset=CustomUser.objects.all(), default=serializers.CurrentUserDefault(), error_messages={
+            'does_not_exist': 'User does not exist.'})
 
     class Meta:
         model = Review
