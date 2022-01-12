@@ -32,15 +32,3 @@ class ReviewSerializer(serializers.ModelSerializer):
         lookup_field = 'uuid'
         fields = ('uuid', 'review', 'created_at',
                   'updated_at', 'product', 'user',)
-
-    def update(self, instance, validated_data):
-        if instance.user != self.context['request'].user:
-            raise serializers.ValidationError(
-                'You do not have permission. The review you are trying to change does not belong to you.')
-
-        for (key, value) in validated_data.items():
-            setattr(instance, key, value)
-
-        instance.save()
-
-        return instance
