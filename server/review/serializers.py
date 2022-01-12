@@ -36,7 +36,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         if instance.user != self.context['request'].user:
             raise serializers.ValidationError(
-                'You do not have permission. The review you are trying to change does not belong to you')
+                'You do not have permission. The review you are trying to change does not belong to you.')
 
         for (key, value) in validated_data.items():
             setattr(instance, key, value)
