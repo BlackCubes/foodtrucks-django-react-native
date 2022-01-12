@@ -44,6 +44,7 @@ class ReviewListCreateAPIView(generics.ListCreateAPIView):
     Request Type: GET and POST.
     """
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    renderer_classes = (UserJSONRenderer,)
     serializer_class = ReviewSerializer
     queryset = Review.objects.all().order_by('created_at')
 
