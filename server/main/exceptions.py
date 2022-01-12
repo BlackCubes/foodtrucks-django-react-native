@@ -10,6 +10,7 @@ def custom_exception_handler(exc, context):
     }
 
     response = exception_handler(exc, context)
+    print(exc)
 
     if response is not None:
         custom_response = {}
