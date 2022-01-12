@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from .models import Review
+from .permissions import AuthenticatedUserChangeDeleteReviewPermission
 from .serializers import ReviewSerializer
 
 from main.utils import final_success_response
@@ -62,7 +63,8 @@ class ReviewDetailUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     Request Type: GET, PUT, PATCH, and DELETE.
     """
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (
+        IsAuthenticated, AuthenticatedUserChangeDeleteReviewPermission,)
     renderer_classes = (UserJSONRenderer,)
     serializer_class = ReviewSerializer
     queryset = Review.objects.all().order_by('created_at')
