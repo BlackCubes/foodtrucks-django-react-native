@@ -119,7 +119,7 @@ class UserProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-    def update(self, request, *args, **kwargs):
+    def partial_update(self, request, *args, **kwargs):
         serializer = self.serializer_class(
             instance=request.user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
