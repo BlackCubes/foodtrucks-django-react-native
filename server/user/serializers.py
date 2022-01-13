@@ -126,7 +126,9 @@ class RegisterSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True, min_length=4, max_length=25, validators=[
         UniqueValidator(queryset=CustomUser.objects.all(), message='This username already exists.')], error_messages={
             'required': 'The username is required.',
-            'blank': 'The username cannot be empty.'
+            'blank': 'The username cannot be empty.',
+            'min_length': 'The username should be no less than 4 characters.',
+            'max_length': 'The username should be no more than 25 characters.'
     })
     password = serializers.CharField(required=True, validators=[
         validate_password], error_messages={
@@ -178,7 +180,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
     })
     username = serializers.CharField(required=False, min_length=4, max_length=25, validators=[
         UniqueValidator(queryset=CustomUser.objects.all(), message='This username already exists.')], error_messages={
-            'blank': 'The username cannot be empty.'
+            'blank': 'The username cannot be empty.',
+            'min_length': 'The username should be no less than 4 characters.',
+            'max_length': 'The username should be no more than 25 characters.'
     })
 
     class Meta:
