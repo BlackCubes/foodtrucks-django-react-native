@@ -48,10 +48,11 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         old_password = data.get('password', None)
 
         if old_password is None:
-            raise serializers.ValidationError('Your old password is required.')
+            raise serializers.ValidationError('The old password is required.')
 
         if old_password != old_password_confirmation:
-            raise serializers.ValidationError('The passwords do not match.')
+            raise serializers.ValidationError(
+                'The old password and its confirmation do not match.')
 
         return old_password_confirmation
 
@@ -89,10 +90,10 @@ class LoginSerializer(serializers.ModelSerializer):
         password = data.get('password', None)
 
         if email is None:
-            raise serializers.ValidationError('An email is required.')
+            raise serializers.ValidationError('The email is required.')
 
         if password is None:
-            raise serializers.ValidationError('A password is required.')
+            raise serializers.ValidationError('The password is required.')
 
         user = authenticate(username=email, password=password)
 
@@ -119,12 +120,12 @@ class RegisterSerializer(serializers.ModelSerializer):
     Creates a new user.
     """
     email = serializers.EmailField(required=True, validators=[
-        UniqueValidator(queryset=CustomUser.objects.all(), message='This email already exists.')], error_messages={
+        UniqueValidator(queryset=CustomUser.objects.all(), message='The email already exists.')], error_messages={
             'required': 'The email is required.',
             'blank': 'The email cannot be empty.'
     })
     username = serializers.CharField(required=True, min_length=4, max_length=25, validators=[
-        UniqueValidator(queryset=CustomUser.objects.all(), message='This username already exists.')], error_messages={
+        UniqueValidator(queryset=CustomUser.objects.all(), message='The username already exists.')], error_messages={
             'required': 'The username is required.',
             'blank': 'The username cannot be empty.',
             'min_length': 'The username should be no less than 4 characters.',
@@ -175,11 +176,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
     Changes the user's email and/or username.
     """
     email = serializers.EmailField(required=False, validators=[
-        UniqueValidator(queryset=CustomUser.objects.all(), message='This email already exists.')], error_messages={
+        UniqueValidator(queryset=CustomUser.objects.all(), message='The email already exists.')], error_messages={
             'blank': 'The email cannot be empty.'
     })
     username = serializers.CharField(required=False, min_length=4, max_length=25, validators=[
-        UniqueValidator(queryset=CustomUser.objects.all(), message='This username already exists.')], error_messages={
+        UniqueValidator(queryset=CustomUser.objects.all(), message='The username already exists.')], error_messages={
             'blank': 'The username cannot be empty.',
             'min_length': 'The username should be no less than 4 characters.',
             'max_length': 'The username should be no more than 25 characters.'
