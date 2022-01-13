@@ -7,6 +7,8 @@ from rest_framework.views import APIView
 from .renderers import UserJSONRenderer
 from .serializers import ChangePasswordSerializer, LoginSerializer, RegisterSerializer, UserProfileSerializer
 
+from main.utils import final_success_response
+
 
 class ChangePasswordUpdateAPIView(UpdateAPIView):
     """
@@ -24,19 +26,18 @@ class ChangePasswordUpdateAPIView(UpdateAPIView):
     renderer_classes = (UserJSONRenderer,)
     serializer_class = ChangePasswordSerializer
 
+    def finalize_response(self, request, response, *args, **kwargs):
+        final_success_response(response)
+
+        return super().finalize_response(request, response, *args, **kwargs)
+
     def update(self, request, *args, **kwargs):
         serializer = self.serializer_class(
             instance=request.user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        data = {
-            'statusCode': status.HTTP_200_OK,
-            'status': 'success',
-            'data': serializer.data,
-        }
-
-        return Response(data=data, status=status.HTTP_200_OK)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
 class LoginAPIView(APIView):
@@ -55,17 +56,16 @@ class LoginAPIView(APIView):
     renderer_classes = (UserJSONRenderer,)
     serialzer_class = LoginSerializer
 
+    def finalize_response(self, request, response, *args, **kwargs):
+        final_success_response(response)
+
+        return super().finalize_response(request, response, *args, **kwargs)
+
     def post(self, request):
         serializer = self.serialzer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        data = {
-            'statusCode': status.HTTP_200_OK,
-            'status': 'success',
-            'data': serializer.data,
-        }
-
-        return Response(data=data, status=status.HTTP_200_OK)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
 class RegisterAPIView(APIView):
@@ -84,18 +84,17 @@ class RegisterAPIView(APIView):
     renderer_classes = (UserJSONRenderer,)
     serializer_class = RegisterSerializer
 
+    def finalize_response(self, request, response, *args, **kwargs):
+        final_success_response(response)
+
+        return super().finalize_response(request, response, *args, **kwargs)
+
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        data = {
-            'statusCode': status.HTTP_201_CREATED,
-            'status': 'success',
-            'data': serializer.data,
-        }
-
-        return Response(data=data, status=status.HTTP_201_CREATED)
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
 
 class UserProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
@@ -114,21 +113,20 @@ class UserProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     renderer_classes = (UserJSONRenderer,)
     serializer_class = UserProfileSerializer
 
+    def finalize_response(self, request, response, *args, **kwargs):
+        final_success_response(response)
+
+        return super().finalize_response(request, response, *args, **kwargs)
+
     def retrieve(self, request, *args, **kwargs):
         serializer = self.serializer_class(request.user)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-    def update(self, request, *args, **kwargs):
+    def partial_update(self, request, *args, **kwargs):
         serializer = self.serializer_class(
             instance=request.user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        data = {
-            'statusCode': status.HTTP_200_OK,
-            'status': 'success',
-            'data': serializer.data,
-        }
-
-        return Response(data=data, status=status.HTTP_200_OK)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
