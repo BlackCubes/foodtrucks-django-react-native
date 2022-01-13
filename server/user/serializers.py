@@ -14,12 +14,18 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 
     Changes the user's password.
     """
-    old_password = serializers.CharField(required=True, validators=[
-                                         validate_password], write_only=True)
-    old_password_confirmation = serializers.CharField(
-        required=True, validators=[validate_password], write_only=True)
-    new_password = serializers.CharField(required=True, validators=[
-                                         validate_password], write_only=True)
+    old_password = serializers.CharField(required=True, validators=[validate_password], error_messages={
+        'required': 'The old password is required.',
+        'blank': 'The old password cannot be empty.'
+    }, write_only=True)
+    old_password_confirmation = serializers.CharField(required=True, error_messages={
+        'required': 'The old password confirmation is required.',
+        'blank': 'The old password confirmation cannot be empty.'
+    }, write_only=True)
+    new_password = serializers.CharField(required=True, validators=[validate_password], error_messages={
+        'required': 'The new password is required.',
+        'blank': 'The new password cannot be empty.'
+    }, write_only=True)
 
     class Meta:
         model = CustomUser
@@ -64,9 +70,14 @@ class LoginSerializer(serializers.ModelSerializer):
 
     Logins the user.
     """
-    email = serializers.EmailField(required=True)
-    password = serializers.CharField(required=True, validators=[
-                                     validate_password], write_only=True)
+    email = serializers.EmailField(required=True, error_messages={
+        'required': 'The email is required.',
+        'blank': 'The email cannot be empty.'
+    })
+    password = serializers.CharField(required=True, validators=[validate_password], error_messages={
+        'required': 'The password is required.',
+        'blank': 'The password cannot be empty.'
+    }, write_only=True)
     token = serializers.CharField(max_length=255, read_only=True)
 
     class Meta:
@@ -108,13 +119,24 @@ class RegisterSerializer(serializers.ModelSerializer):
     Creates a new user.
     """
     email = serializers.EmailField(required=True, validators=[
-                                   UniqueValidator(queryset=CustomUser.objects.all(), message='This email already exists.')])
+        UniqueValidator(queryset=CustomUser.objects.all(), message='This email already exists.')], error_messages={
+            'required': 'The email is required.',
+            'blank': 'The email cannot be empty.'
+    })
     username = serializers.CharField(required=True, min_length=4, max_length=25, validators=[
-                                     UniqueValidator(queryset=CustomUser.objects.all(), message='This username already exists.')])
+        UniqueValidator(queryset=CustomUser.objects.all(), message='This username already exists.')], error_messages={
+            'required': 'The username is required.',
+            'blank': 'The username cannot be empty.'
+    })
     password = serializers.CharField(required=True, validators=[
-                                     validate_password], write_only=True)
-    password_confirmation = serializers.CharField(
-        required=True, write_only=True)
+        validate_password], error_messages={
+            'required': 'The password is required.',
+            'blank': 'The password cannot be empty.'
+    }, write_only=True)
+    password_confirmation = serializers.CharField(required=True, error_messages={
+        'required': 'The password confirmation is required.',
+        'blank': 'The password confirmation cannot be empty.'
+    }, write_only=True)
     token = serializers.CharField(max_length=255, read_only=True)
 
     class Meta:
@@ -150,10 +172,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     Changes the user's email and/or username.
     """
-    email = serializers.EmailField(required=False, validators=[UniqueValidator(
-        queryset=CustomUser.objects.all(), message='This email already exists.')])
+    email = serializers.EmailField(required=False, validators=[
+        UniqueValidator(queryset=CustomUser.objects.all(), message='This email already exists.')], error_messages={
+            'blank': 'The email cannot be empty.'
+    })
     username = serializers.CharField(required=False, min_length=4, max_length=25, validators=[
-                                     UniqueValidator(queryset=CustomUser.objects.all(), message='This username already exists.')])
+        UniqueValidator(queryset=CustomUser.objects.all(), message='This username already exists.')], error_messages={
+            'blank': 'The username cannot be empty.'
+    })
 
     class Meta:
         model = CustomUser
