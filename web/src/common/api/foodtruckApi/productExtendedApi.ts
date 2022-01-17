@@ -1,18 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-
-import customBaseQuery from './customBaseQuery';
+import coreSplitApi from './coreSplitApi';
 import { Product, Review, Social } from '../../models';
 
-export const productApi = createApi({
-  reducerPath: 'productApi',
-  baseQuery: customBaseQuery,
-
-  keepUnusedDataFor: 0,
-  refetchOnMountOrArgChange: true,
-  refetchOnReconnect: true,
-
-  tagTypes: ['Product', 'Review', 'Social'],
-
+const productExtendedApi = coreSplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query<Product, void>({
       query: () => ({ url: '/products' }),
@@ -34,6 +23,8 @@ export const productApi = createApi({
       providesTags: ['Social'],
     }),
   }),
+
+  overrideExisting: false,
 });
 
 export const {
@@ -41,4 +32,4 @@ export const {
   useGetProductsQuery,
   useGetReviewsByProductSlugQuery,
   useGetSocialsByProductSlugQuery,
-} = productApi;
+} = productExtendedApi;

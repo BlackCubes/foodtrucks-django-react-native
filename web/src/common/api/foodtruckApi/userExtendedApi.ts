@@ -1,6 +1,4 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-
-import customBaseQuery from './customBaseQuery';
+import coreSplitApi from './coreSplitApi';
 import { Session, User } from '../../models';
 
 type ChangePasswordRequest = {
@@ -18,16 +16,7 @@ type RegisterRequest = User & {
 };
 type UserSessionResponse = User & Session;
 
-export const userApi = createApi({
-  reducerPath: 'userApi',
-  baseQuery: customBaseQuery,
-
-  keepUnusedDataFor: 0,
-  refetchOnMountOrArgChange: true,
-  refetchOnReconnect: true,
-
-  tagTypes: ['User'],
-
+const userExtendedApi = coreSplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getUserProfile: builder.query<UserSessionResponse, void>({
       query: () => ({ url: '/users/profile' }),
@@ -67,6 +56,8 @@ export const userApi = createApi({
       }),
     }),
   }),
+
+  overrideExisting: false,
 });
 
 export const {
@@ -75,4 +66,4 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useUpdateProfileMutation,
-} = userApi;
+} = userExtendedApi;

@@ -1,18 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-
-import customBaseQuery from './customBaseQuery';
+import coreSplitApi from './coreSplitApi';
 import { Review } from '../../models';
 
-export const reviewApi = createApi({
-  reducerPath: 'reviewApi',
-  baseQuery: customBaseQuery,
-
-  keepUnusedDataFor: 0,
-  refetchOnMountOrArgChange: true,
-  refetchOnReconnect: true,
-
-  tagTypes: ['Review'],
-
+const reviewExtendedApi = coreSplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getReviews: builder.query<Review[], void>({
       query: () => ({ url: '/reviews' }),
@@ -55,6 +44,8 @@ export const reviewApi = createApi({
       invalidatesTags: ['Review'],
     }),
   }),
+
+  overrideExisting: false,
 });
 
 export const {
@@ -64,4 +55,4 @@ export const {
   useGetReviewsFromUserQuery,
   useGetReviewsQuery,
   useUpdateReviewMutation,
-} = reviewApi;
+} = reviewExtendedApi;

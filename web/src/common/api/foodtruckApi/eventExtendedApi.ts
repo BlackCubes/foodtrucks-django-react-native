@@ -1,18 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-
-import customBaseQuery from './customBaseQuery';
+import coreSplitApi from './coreSplitApi';
 import { Event } from '../../models';
 
-export const eventApi = createApi({
-  reducerPath: 'eventApi',
-  baseQuery: customBaseQuery,
-
-  keepUnusedDataFor: 0,
-  refetchOnMountOrArgChange: true,
-  refetchOnReconnect: true,
-
-  tagTypes: ['Event'],
-
+const eventExtendedApi = coreSplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getEvents: builder.query<Event[], void>({
       query: () => ({ url: '/events' }),
@@ -24,6 +13,8 @@ export const eventApi = createApi({
       providesTags: ['Event'],
     }),
   }),
+
+  overrideExisting: false,
 });
 
-export const { useGetEventsQuery, useGetEventByUuidQuery } = eventApi;
+export const { useGetEventByUuidQuery, useGetEventsQuery } = eventExtendedApi;

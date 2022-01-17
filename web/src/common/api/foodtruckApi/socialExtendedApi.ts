@@ -1,18 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-
-import customBaseQuery from './customBaseQuery';
+import coreSplitApi from './coreSplitApi';
 import { Emoji, Social } from '../../models';
 
-export const socialApi = createApi({
-  reducerPath: 'socialApi',
-  baseQuery: customBaseQuery,
-
-  keepUnusedDataFor: 0,
-  refetchOnMountOrArgChange: true,
-  refetchOnReconnect: true,
-
-  tagTypes: ['Social', 'Emoji'],
-
+const socialExtendedApi = coreSplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getSocials: builder.query<Social[], void>({
       query: () => ({ url: '/socials' }),
@@ -41,11 +30,13 @@ export const socialApi = createApi({
       providesTags: ['Emoji'],
     }),
   }),
+
+  overrideExisting: false,
 });
 
 export const {
   useCreateSocialMutation,
   useGetEmojisQuery,
-  useGetSocialsQuery,
   useGetSocialByUuidQuery,
-} = socialApi;
+  useGetSocialsQuery,
+} = socialExtendedApi;
