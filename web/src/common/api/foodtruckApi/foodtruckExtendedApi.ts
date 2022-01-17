@@ -1,18 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
+import coreSplitApi from './coreSplitApi';
+import { Foodtruck, Product, Review, Social } from '../../models';
 
-import customBaseQuery from './customBaseQuery';
-import { Foodtruck, Product, Review, Social } from '../models';
-
-export const foodtruckApi = createApi({
-  reducerPath: 'foodtruckApi',
-  baseQuery: customBaseQuery,
-
-  keepUnusedDataFor: 0,
-  refetchOnMountOrArgChange: true,
-  refetchOnReconnect: true,
-
-  tagTypes: ['Foodtruck', 'Product', 'Review', 'Social'],
-
+const foodtruckExtendedApi = coreSplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getFoodtrucks: builder.query<Foodtruck[], void>({
       query: () => ({ url: '/foodtrucks' }),
@@ -39,6 +28,8 @@ export const foodtruckApi = createApi({
       providesTags: ['Social'],
     }),
   }),
+
+  overrideExisting: false,
 });
 
 export const {
@@ -47,4 +38,4 @@ export const {
   useGetProductsByFoodtruckSlugQuery,
   useGetReviewsByFoodtruckSlugQuery,
   useGetSocialsByFoodtruckSlugQuery,
-} = foodtruckApi;
+} = foodtruckExtendedApi;

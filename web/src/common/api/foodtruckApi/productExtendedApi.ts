@@ -1,20 +1,9 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
+import coreSplitApi from './coreSplitApi';
+import { Product, Review, Social } from '../../models';
 
-import customBaseQuery from './customBaseQuery';
-import { Product, Review, Social } from '../models';
-
-export const productApi = createApi({
-  reducerPath: 'productApi',
-  baseQuery: customBaseQuery,
-
-  keepUnusedDataFor: 0,
-  refetchOnMountOrArgChange: true,
-  refetchOnReconnect: true,
-
-  tagTypes: ['Product', 'Review', 'Social'],
-
+const productExtendedApi = coreSplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query<Product, void>({
+    getProducts: builder.query<Product[], void>({
       query: () => ({ url: '/products' }),
       providesTags: ['Product'],
     }),
@@ -24,16 +13,18 @@ export const productApi = createApi({
       providesTags: ['Product'],
     }),
 
-    getReviewsByProductSlug: builder.query<Review, string>({
+    getReviewsByProductSlug: builder.query<Review[], string>({
       query: (slug) => ({ url: `/products/${slug}/reviews` }),
       providesTags: ['Review'],
     }),
 
-    getSocialsByProductSlug: builder.query<Social, string>({
+    getSocialsByProductSlug: builder.query<Social[], string>({
       query: (slug) => ({ url: `/products/${slug}/socials` }),
       providesTags: ['Social'],
     }),
   }),
+
+  overrideExisting: false,
 });
 
 export const {
@@ -41,4 +32,4 @@ export const {
   useGetProductsQuery,
   useGetReviewsByProductSlugQuery,
   useGetSocialsByProductSlugQuery,
-} = productApi;
+} = productExtendedApi;
