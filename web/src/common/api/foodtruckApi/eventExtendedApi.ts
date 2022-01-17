@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 import customBaseQuery from './customBaseQuery';
-import { Event } from '../models';
+import { Event } from '../../models';
 
 export const eventApi = createApi({
   reducerPath: 'eventApi',

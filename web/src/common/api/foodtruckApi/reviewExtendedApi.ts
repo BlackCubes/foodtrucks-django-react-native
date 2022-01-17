@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 import customBaseQuery from './customBaseQuery';
-import { Review } from '../models';
+import { Review } from '../../models';
 
 export const reviewApi = createApi({
   reducerPath: 'reviewApi',

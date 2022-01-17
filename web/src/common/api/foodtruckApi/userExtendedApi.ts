@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 import customBaseQuery from './customBaseQuery';
-import { Session, User } from '../models';
+import { Session, User } from '../../models';
 
 type ChangePasswordRequest = {
   old_password: string;

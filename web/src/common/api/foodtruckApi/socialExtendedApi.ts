@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 import customBaseQuery from './customBaseQuery';
-import { Emoji, Social } from '../models';
+import { Emoji, Social } from '../../models';
 
 export const socialApi = createApi({
   reducerPath: 'socialApi',

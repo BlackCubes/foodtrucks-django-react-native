@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 import customBaseQuery from './customBaseQuery';
-import { Foodtruck, Product, Review, Social } from '../models';
+import { Foodtruck, Product, Review, Social } from '../../models';
 
 export const foodtruckApi = createApi({
   reducerPath: 'foodtruckApi',
