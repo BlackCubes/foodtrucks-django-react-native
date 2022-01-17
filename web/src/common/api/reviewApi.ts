@@ -19,6 +19,11 @@ export const reviewApi = createApi({
       providesTags: ['Review'],
     }),
 
+    getReviewsFromUser: builder.query<Review[], void>({
+      query: () => ({ url: '/my-reviews' }),
+      providesTags: ['Review'],
+    }),
+
     getReviewByUuid: builder.query<Review, string>({
       query: (uuid) => ({ url: `/reviews/${uuid}` }),
       providesTags: ['Review'],
@@ -55,7 +60,8 @@ export const reviewApi = createApi({
 export const {
   useCreateReviewMutation,
   useDeleteReviewMutation,
-  useGetReviewsQuery,
   useGetReviewByUuidQuery,
+  useGetReviewsFromUserQuery,
+  useGetReviewsQuery,
   useUpdateReviewMutation,
 } = reviewApi;
