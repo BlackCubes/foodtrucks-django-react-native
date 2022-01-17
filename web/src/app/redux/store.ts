@@ -2,11 +2,14 @@ import { configureStore, ConfigureStoreOptions } from '@reduxjs/toolkit';
 
 import foodtruckApi from '../../common/api/foodtruckApi/coreSplitApi';
 
+import { authSlice } from '../../features/auth/authSlice';
+
 export const createAppStore = (
   options?: ConfigureStoreOptions['preloadedState'] | undefined
 ) =>
   configureStore({
     reducer: {
+      auth: authSlice.reducer,
       [foodtruckApi.reducerPath]: foodtruckApi.reducer,
     },
 
