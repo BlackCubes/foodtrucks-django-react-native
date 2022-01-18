@@ -4,6 +4,20 @@ from .models import Emoji, Like
 from product.models import Product
 
 
+class EmojiSerializer(serializers.ModelSerializer):
+    """
+    Serializer on the Emoji model.
+
+    Lookup Field: uuid.
+
+    Fields: uuid, emoji, and name
+    """
+    class Meta:
+        model = Emoji
+        lookup_field = 'uuid'
+        fields = ('uuid', 'emoji', 'name',)
+
+
 class LikeSerializer(serializers.ModelSerializer):
     """
     Serializer on the Like model.
@@ -16,6 +30,7 @@ class LikeSerializer(serializers.ModelSerializer):
     """
     emoji = serializers.SlugRelatedField(
         slug_field='emoji', queryset=Emoji.objects.all())
+    like = serializers.IntegerField(min_value=1)
     product = serializers.SlugRelatedField(
         slug_field='slug', queryset=Product.objects.all())
 
@@ -77,17 +92,3 @@ class LikeSerializer(serializers.ModelSerializer):
         # In all failed cases, this is most likely a new creation.
         new_like = Like.objects.create(**validated_data)
         return new_like
-
-
-class EmojiSerializer(serializers.ModelSerializer):
-    """
-    Serializer on the Emoji model.
-
-    Lookup Field: uuid.
-
-    Fields: uuid, emoji, and name
-    """
-    class Meta:
-        model = Emoji
-        lookup_field = 'uuid'
-        fields = ('uuid', 'emoji', 'name',)
