@@ -5,7 +5,7 @@ from .models import Event
 from foodtruck.models import Truck
 
 
-class EventSerializer(serializers.Serializer):
+class EventSerializer(serializers.ModelSerializer):
     """
     Serializer on the Event model.
 
