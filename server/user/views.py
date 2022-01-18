@@ -33,7 +33,7 @@ class ChangePasswordUpdateAPIView(UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         serializer = self.serializer_class(
-            instance=request.user, data=request.data, partial=True)
+            instance=request.user, context={'request': request}, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
