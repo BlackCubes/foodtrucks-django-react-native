@@ -1,11 +1,10 @@
-from django.db.models import fields
 from rest_framework import serializers
 
 from .models import Event
 from foodtruck.models import Truck
 
 
-class EventSerializer(serializers.Serializer):
+class EventSerializer(serializers.ModelSerializer):
     """
     Serializer on the Event model.
 
