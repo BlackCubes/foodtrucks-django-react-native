@@ -45,7 +45,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
     def validate_old_password_confirmation(self, old_password_confirmation):
         data = self.get_initial()
 
-        old_password = data.get('password', None)
+        old_password = data.get('old_password', None)
 
         if old_password is None:
             raise serializers.ValidationError('The old password is required.')
