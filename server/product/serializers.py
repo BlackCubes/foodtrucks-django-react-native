@@ -2,6 +2,8 @@ from rest_framework import serializers
 
 from .models import Product
 
+from foodtruck.serializers import TruckSerializer
+
 
 class ProductSerializer(serializers.ModelSerializer):
     """
@@ -12,7 +14,7 @@ class ProductSerializer(serializers.ModelSerializer):
     Fields: uuid, name, slug, info, image, price, quantity, is_available, truck,
     reviews, and likes.
     """
-    truck = serializers.CharField(source='truck.slug')
+    truck = TruckSerializer(fields=('uuid', 'name', 'slug',))
 
     class Meta:
         model = Product
