@@ -29,10 +29,24 @@ class LikeSerializer(serializers.ModelSerializer):
     create a new one.
     """
     emoji = serializers.SlugRelatedField(
-        slug_field='emoji', queryset=Emoji.objects.all())
-    like = serializers.IntegerField(min_value=1)
+        slug_field='emoji', queryset=Emoji.objects.all(), error_messages={
+            'required': 'The emoji is required.',
+            'null': 'The emoji cannot be empty.',
+            'does_not_exist': 'The emoji with this icon does not exist.',
+            'invalid': 'Invalid value for the emoji.'
+        })
+    like = serializers.IntegerField(min_value=1, error_messages={
+        'required': 'The like is required.',
+        'min_value': 'The like should be 1 or greater.',
+        'invalid': 'The like needs to be a valid integer.'
+    })
     product = serializers.SlugRelatedField(
-        slug_field='slug', queryset=Product.objects.all())
+        slug_field='slug', queryset=Product.objects.all(), error_messages={
+            'required': 'The product is required.',
+            'null': 'The product cannot be empty.',
+            'does_not_exist': 'The product with this slug does not exist.',
+            'invalid': 'Invalid value for the product.'
+        })
 
     class Meta:
         model = Like
