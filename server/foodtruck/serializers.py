@@ -23,7 +23,17 @@ class TruckImageSerializer(serializers.ModelSerializer):
 
 class TruckSerializer(DynamicFieldsModelSerializer):
     """
-    Serializer on the Truck model.
+    Serializer on the Truck model. If the `profile_image` is required, then when
+    initializing this serializer, add in `fields` with `images` and `extra_fields`
+    with `profile_image` as kwargs:
+        `TruckSerializer(fields=('images',), extra_fields=('profile_image',))`.
+
+    The `__init__` method is used to check if both `profile_image` and `images` are
+    in the `extra_fields` and `fields` (respectively) to get the Truck's profile image
+    in `to_representation`.
+
+    The `to_representation` method is used to actually get the Truck's profile image, and
+    set it in the JSON response while removing the `images` output.
 
     Lookup Field: slug.
 
