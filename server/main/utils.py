@@ -2,6 +2,7 @@ import random
 import string
 from django.utils.text import slugify
 from django.http import JsonResponse
+from rest_framework import serializers
 
 
 def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits):
@@ -77,3 +78,33 @@ def final_success_response(response):
             'status': 'success',
             'data': response.data,
         }
+
+
+class DynamicFieldsModelSerializer(serializers.ModelSerializer):
+    """
+    A ModelSerializer that takes an additional `fields` argument that controls which
+    fields should be displayed.
+
+    The `fields` is the wanted fields to be displayed. This should be popped out
+    before the superclass, or else the chance of `fields=None` would override `self.fields`.
+
+    The `self.fields` are from the `Meta` class when the serializer is made.
+
+    The `not_wanted_field` is the field that does not occur from the wanted fields, and it
+    should not be displayed in the final output.
+
+    Example: If `fields=('uuid', 'name',)` and `self.fields=('uuid', 'name', 'info',)`, then
+    `info` would not appear.
+    """
+
+    def __init__(self, *args, **kwargs):
+        fields = kwargs.pop('fields', None)
+
+        super(DynamicFieldsModelSerializer, self).__init__(*args, **kwargs)
+
+        if fields is not None:
+            wanted_fields = set(fields)
+            current_fields = set(self.fields.keys())
+
+            for not_wanted_field in current_fields - wanted_fields:
+                self.fields.pop(not_wanted_field)
