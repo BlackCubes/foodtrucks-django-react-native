@@ -2,6 +2,8 @@ from rest_framework import serializers
 
 from .models import Truck, TruckImage
 
+from main.utils import DynamicFieldsModelSerializer
+
 
 class TruckImageSerializer(serializers.ModelSerializer):
     """
@@ -19,7 +21,7 @@ class TruckImageSerializer(serializers.ModelSerializer):
         fields = ('uuid', 'image', 'is_profile_image', 'truck',)
 
 
-class TruckSerializer(serializers.ModelSerializer):
+class TruckSerializer(DynamicFieldsModelSerializer):
     """
     Serializer on the Truck model.
 
