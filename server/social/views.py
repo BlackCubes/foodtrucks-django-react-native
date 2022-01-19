@@ -61,13 +61,13 @@ class LikeListCreateAPIView(generics.ListCreateAPIView):
         return super().finalize_response(request, response, *args, **kwargs)
 
 
-class LikeDetailUpdateAPIView(generics.RetrieveUpdateAPIView):
+class LikeDetailAPIView(generics.RetrieveAPIView):
     """
-    API view to retrieve or update from the Like model based on its uuid.
+    API view to retrieve the Like model based on its uuid.
 
     Lookup Field: uuid.
 
-    Request Type: GET, PUT, and PATCH.
+    Request Type: GET.
     """
     permission_classes = (AllowAny,)
     serializer_class = LikeSerializer
