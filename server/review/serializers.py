@@ -32,3 +32,17 @@ class ReviewSerializer(serializers.ModelSerializer):
         lookup_field = 'uuid'
         fields = ('uuid', 'review', 'created_at',
                   'updated_at', 'product', 'user',)
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+
+        product_image = None if not instance.product.image else instance.product.image
+
+        representation['product'] = {
+            'uuid': str(instance.product.uuid),
+            'name': instance.product.name,
+            'slug': instance.product.slug,
+            'image': product_image,
+        }
+
+        return representation
