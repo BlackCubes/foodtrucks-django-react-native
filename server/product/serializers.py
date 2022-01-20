@@ -4,8 +4,10 @@ from .models import Product
 
 from foodtruck.serializers import TruckSerializer
 
+from main.utils import DynamicFieldsModelSerializer
 
-class ProductSerializer(serializers.ModelSerializer):
+
+class ProductSerializer(DynamicFieldsModelSerializer):
     """
     Serializer on the Product model.
 
