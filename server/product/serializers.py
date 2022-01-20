@@ -1,11 +1,11 @@
+from rest_framework import serializers
+
 from .models import Product
 
 from foodtruck.serializers import TruckSerializer
 
-from main.utils import DynamicFieldsModelSerializer
 
-
-class ProductSerializer(DynamicFieldsModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     """
     Serializer on the Product model.
 
