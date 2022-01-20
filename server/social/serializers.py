@@ -1,7 +1,36 @@
 from rest_framework import serializers
 
 from .models import Emoji, Like
+
 from product.models import Product
+
+
+class LikeRepresentationModelSerializer(serializers.ModelSerializer):
+    """
+    A ModelSerializer that transforms the `emoji` and `product` fields to return
+    objects for better description. In the `LikeSerializer`, the fields (not the
+    `fields` in `Meta`) of `emoji` and `product` have a relational serializer field
+    which is the `SlugRelatedField`, and this would have an affect on both fields
+    to return the `slug_field` parameter. This leads to less description. The
+    solution is to simply implement the `to_representation` method.
+    """
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+
+        representation['emoji'] = {
+            'uuid': instance.emoji.uuid,
+            'emoji': instance.emoji.emoji,
+            'name': instance.emoji.name,
+        }
+
+        representation['product'] = {
+            'uuid': instance.product.uuid,
+            'name': instance.product.name,
+            'slug': instance.product.slug,
+        }
+
+        return representation
 
 
 class EmojiSerializer(serializers.ModelSerializer):
@@ -18,7 +47,7 @@ class EmojiSerializer(serializers.ModelSerializer):
         fields = ('uuid', 'emoji', 'name',)
 
 
-class LikeSerializer(serializers.ModelSerializer):
+class LikeSerializer(LikeRepresentationModelSerializer):
     """
     Serializer on the Like model.
 
