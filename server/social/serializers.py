@@ -47,6 +47,8 @@ class RemoveProductRepresentationSerializer(EmojiProductRepresentationModelSeria
     route: `/api/v1/products/<slug>`.
 
     In other words, this route is only concern about getting all socials from the product.
+
+    The route this only targets: `/api/v1/products/<slug>/socials`
     """
 
     def to_representation(self, instance):
