@@ -1,8 +1,17 @@
 import random
 import string
-from django.utils.text import slugify
 from django.http import JsonResponse
+from django.urls import resolve
+from django.utils.text import slugify
 from rest_framework import serializers
+
+
+def get_request_url_name(request_path):
+    """
+    Gets the URL name from the `urlpatterns`. If there are no URL name, then
+    it returns `None`.
+    """
+    return resolve(request_path).url_name
 
 
 def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits):
