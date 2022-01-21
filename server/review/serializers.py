@@ -40,7 +40,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
 
-        # This is to check if the it is on the route `/api/v1/reviews/my-reviews/`
+        # This is to check if it is on the route `/api/v1/reviews/my-reviews/.`
         is_auth_user_reviews_route = get_request_view_name(
             self.context['request'].path) == 'reviews:my-reviews'
 
@@ -50,14 +50,21 @@ class ReviewSerializer(serializers.ModelSerializer):
             # current authenticated user (removes redundancy).
             representation.pop('user')
 
-        # Checks to see if the `image` field is not empty, or else it won't serialize.
-        product_image = None if not instance.product.image else instance.product.image
+        # This is to check if it is on the route `/api/v1/products/<slug>/reviews/.`
+        is_reviews_in_product_route = get_request_view_name(
+            self.context['request'].path) == 'products:review-list'
 
-        representation['product'] = {
-            'uuid': str(instance.product.uuid),
-            'name': instance.product.name,
-            'slug': instance.product.slug,
-            'image': product_image,
-        }
+        if is_reviews_in_product_route:
+            representation.pop('product')
+        else:
+            # Checks to see if the `image` field is not empty, or else it won't serialize.
+            product_image = None if not instance.product.image else instance.product.image
+
+            representation['product'] = {
+                'uuid': str(instance.product.uuid),
+                'name': instance.product.name,
+                'slug': instance.product.slug,
+                'image': product_image,
+            }
 
         return representation
