@@ -2,6 +2,8 @@ from rest_framework import serializers
 
 from .models import Emoji, Like
 
+from main.utils import get_request_view_name
+
 from product.models import Product
 
 
@@ -18,17 +20,27 @@ class LikeRepresentationModelSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
 
+        # This is to check if it is on the route `/api/v1/products/<slug>/socials/`.
+        is_socials_in_product_route = get_request_view_name(
+            self.context['request'].path) == 'products:social-list'
+
         representation['emoji'] = {
             'uuid': instance.emoji.uuid,
             'emoji': instance.emoji.emoji,
             'name': instance.emoji.name,
         }
 
-        representation['product'] = {
-            'uuid': instance.product.uuid,
-            'name': instance.product.name,
-            'slug': instance.product.slug,
-        }
+        if is_socials_in_product_route:
+            # If it is in the route `/api/v1/products/<slug>/products/`, then remove
+            # the `product` key since this route shows all the socials from the
+            # product (removes redundancy).
+            representation.pop('product')
+        else:
+            representation['product'] = {
+                'uuid': instance.product.uuid,
+                'name': instance.product.name,
+                'slug': instance.product.slug,
+            }
 
         return representation
 
