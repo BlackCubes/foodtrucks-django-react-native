@@ -2,17 +2,20 @@ from rest_framework import serializers
 
 from .models import Emoji, Like
 
+from main.utils import get_request_view_name
+
 from product.models import Product
 
 
-class LikeRepresentationModelSerializer(serializers.ModelSerializer):
+class EmojiProductRepresentationModelSerializer(serializers.ModelSerializer):
     """
     A ModelSerializer that transforms the `emoji` and `product` fields to return
     objects for better description. In the `LikeSerializer`, the fields (not the
     `fields` in `Meta`) of `emoji` and `product` have a relational serializer field
     which is the `SlugRelatedField`, and this would have an affect on both fields
     to return the `slug_field` parameter. This leads to less description. The
-    solution is to simply implement the `to_representation` method.
+    solution is to simply implement the `to_representation` method for a better
+    output description about these fields.
     """
 
     def to_representation(self, instance):
@@ -33,6 +36,33 @@ class LikeRepresentationModelSerializer(serializers.ModelSerializer):
         return representation
 
 
+class RemoveProductRepresentationSerializer(EmojiProductRepresentationModelSerializer):
+    """
+    A RepresentationSerializer that removes the `product` field from the output in
+    order to avoid redundancy since we already know what type of product the list
+    of socials belongs to. This is known by the product's slug from the nested route:
+    `/api/v1/products/<slug>/socials`.
+
+    If one wants to know the detail of this product of this route, they simply call another
+    route: `/api/v1/products/<slug>`.
+
+    In other words, this route is only concern about getting all socials from the product.
+
+    The route this only targets: `/api/v1/products/<slug>/socials`
+    """
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+
+        is_socials_in_product_route = get_request_view_name(
+            self.context['request'].path) == 'products:social-list'
+
+        if is_socials_in_product_route:
+            representation.pop('product')
+
+        return representation
+
+
 class EmojiSerializer(serializers.ModelSerializer):
     """
     Serializer on the Emoji model.
@@ -47,7 +77,7 @@ class EmojiSerializer(serializers.ModelSerializer):
         fields = ('uuid', 'emoji', 'name',)
 
 
-class LikeSerializer(LikeRepresentationModelSerializer):
+class LikeSerializer(RemoveProductRepresentationSerializer):
     """
     Serializer on the Like model.
 
