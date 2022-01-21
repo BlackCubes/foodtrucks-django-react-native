@@ -14,6 +14,28 @@ def get_request_url_name(request_path):
     return resolve(request_path).url_name
 
 
+def get_request_view_name(request_path):
+    """
+    Gets the name of the view that matches the URL, including the namespace if
+    there is one.
+
+    If both `app_name` (or namespace) and the URL name from the `urlpatterns`
+    are provided in `urls.py`, then the output would be `app_name:url_name`.
+
+    If only the URL name from the `urlpatterns` is provided in `urls.py`, then
+    the output would be `url_name`.
+
+    WEIRD CASES:
+
+    If the `app_name` (or namespace) is provided in `urls.py` with no URL name,
+    then the output would be `app_name:app.views.SomeViewSet`.
+
+    If there are no `app_name` (or namespace) and URL name from the `urlpatterns`,
+    then the output would be `app.views.SomeViewSet`.
+    """
+    return resolve(request_path).view_name
+
+
 def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits):
     """
     Generates a random string.
