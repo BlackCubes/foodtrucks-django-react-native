@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from .models import Review
 
-from main.utils import get_request_url_name
+from main.utils import get_request_view_name
 
 from product.models import Product
 
@@ -41,8 +41,8 @@ class ReviewSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
 
         # This is to check if the it is on the route `/api/v1/reviews/my-reviews/`
-        is_auth_user_reviews_route = self.context['request'].method == 'GET' and get_request_url_name(
-            self.context['request'].path) == 'my-reviews'
+        is_auth_user_reviews_route = get_request_view_name(
+            self.context['request'].path) == 'reviews:my-reviews'
 
         if is_auth_user_reviews_route:
             # If it is in the route `/api/v1/reviews/my-reviews/`, then remove

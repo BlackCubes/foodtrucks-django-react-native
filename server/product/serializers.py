@@ -4,6 +4,8 @@ from .models import Product
 
 from foodtruck.serializers import TruckSerializer
 
+from main.utils import get_request_view_name
+
 
 class ProductSerializer(serializers.ModelSerializer):
     """
@@ -22,3 +24,18 @@ class ProductSerializer(serializers.ModelSerializer):
         lookup_field = 'slug'
         fields = ('uuid', 'name', 'slug', 'info', 'image', 'price',
                   'quantity', 'is_available', 'truck',)
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+
+        # This is to check if it is on the route `/api/v1/foodtrucks/<slug>/products/`.
+        is_products_in_foodtruck_route = get_request_view_name(
+            self.context['request'].path) == 'foodtrucks:product-list'
+
+        if is_products_in_foodtruck_route:
+            # If it is in the route `/api/v1/foodtrucks/<slug>/products/`, then remove
+            # the `truck` key since this route shows all products from the foodtruck
+            # (removes redundancy).
+            representation.pop('truck')
+
+        return representation
