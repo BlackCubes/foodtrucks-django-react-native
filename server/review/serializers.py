@@ -1,7 +1,11 @@
 from rest_framework import serializers
 
 from .models import Review
+
+from main.utils import get_request_url_name
+
 from product.models import Product
+
 from user.models import CustomUser
 
 
@@ -36,6 +40,17 @@ class ReviewSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
 
+        # This is to check if the it is on the route `/api/v1/reviews/my-reviews/`
+        is_auth_user_reviews_route = self.context['request'].method == 'GET' and get_request_url_name(
+            self.context['request'].path) == 'my-reviews'
+
+        if is_auth_user_reviews_route:
+            # If it is in the route `/api/v1/reviews/my-reviews/`, then remove
+            # the `user` key since this route shows all reviews made by the
+            # current authenticated user (removes redundancy).
+            representation.pop('user')
+
+        # Checks to see if the `image` field is not empty, or else it won't serialize.
         product_image = None if not instance.product.image else instance.product.image
 
         representation['product'] = {
