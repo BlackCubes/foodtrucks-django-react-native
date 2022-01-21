@@ -5,7 +5,7 @@ from .models import Truck, TruckImage
 from main.utils import DynamicFieldsModelSerializer
 
 
-class GetTruckProfileImageDynamicSerializer(DynamicFieldsModelSerializer):
+class TruckProfileImageDynamicSerializer(DynamicFieldsModelSerializer):
     """
     A DynamicSerializer that gets the Foodtruck's profile image.
 
@@ -32,7 +32,7 @@ class GetTruckProfileImageDynamicSerializer(DynamicFieldsModelSerializer):
         if extra_fields is not None and fields is not None:
             self.want_profile_image = 'profile_image' in extra_fields and 'images' in fields
 
-        super(GetTruckProfileImageDynamicSerializer,
+        super(TruckProfileImageDynamicSerializer,
               self).__init__(*args, **kwargs)
 
     def to_representation(self, instance):
@@ -72,7 +72,7 @@ class TruckImageSerializer(serializers.ModelSerializer):
         fields = ('uuid', 'image', 'is_profile_image', 'truck',)
 
 
-class TruckSerializer(GetTruckProfileImageDynamicSerializer):
+class TruckSerializer(TruckProfileImageDynamicSerializer):
     """
     Serializer on the Truck model. If the `profile_image` is required, then when
     initializing this serializer, add in `fields` with `images` and `extra_fields`
