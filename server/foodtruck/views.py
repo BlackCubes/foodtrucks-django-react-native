@@ -5,6 +5,9 @@ from rest_framework.permissions import AllowAny
 from .models import Truck
 from .serializers import TruckSerializer
 
+from event.models import Event
+from event.serializers import EventSerializer
+
 from main.utils import final_success_response
 
 from product.models import Product
@@ -51,6 +54,35 @@ class TruckDetailAPIView(generics.RetrieveAPIView):
         final_success_response(response)
 
         return super().finalize_response(request, response, *args, **kwargs)
+
+
+class TruckEventsModelViewSet(viewsets.ModelViewSet):
+    """
+    Model viewset on the Event and Truck models. Tries to retrieve all
+    events based on the truck's slug.
+
+    Actions Only: list.
+
+    Request Type Only: GET.
+    """
+    permission_classes = (AllowAny,)
+    serializer_class = EventSerializer
+    queryset = Event.objects.all().prefetch_related('truck').order_by('date')
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        final_success_response(response)
+
+        return super().finalize_response(request, response, *args, **kwargs)
+
+    def get_queryset(self, *args, **kwargs):
+        truck_slug = self.kwargs.get('truck_slug')
+
+        try:
+            truck = Truck.objects.get(slug=truck_slug)
+        except Truck.DoesNotExist:
+            raise NotFound('A truck with this slug does not exist.')
+
+        return self.queryset.filter(truck=truck)
 
 
 class TruckProductsModelViewSet(viewsets.ModelViewSet):
