@@ -80,7 +80,7 @@ class TruckEventsModelViewSet(viewsets.ModelViewSet):
         try:
             truck = Truck.objects.get(slug=truck_slug)
         except Truck.DoesNotExist:
-            raise NotFound('A truck with this slug does not exist.')
+            raise NotFound('A foodtruck with this slug does not exist.')
 
         return self.queryset.filter(truck=truck)
 
@@ -109,7 +109,7 @@ class TruckProductsModelViewSet(viewsets.ModelViewSet):
         try:
             truck = Truck.objects.get(slug=truck_slug)
         except Truck.DoesNotExist:
-            raise NotFound('A truck with this slug does not exist.')
+            raise NotFound('A foodtruck with this slug does not exist.')
 
         return self.queryset.filter(truck=truck)
 
@@ -139,7 +139,7 @@ class TruckLikesModelViewSet(viewsets.ModelViewSet):
         try:
             truck = Truck.objects.get(slug=truck_slug)
         except Truck.DoesNotExist:
-            raise NotFound('A truck with this slug does not exist.')
+            raise NotFound('A foodtruck with this slug does not exist.')
 
         return self.queryset.filter(product__truck=truck)
 
@@ -169,6 +169,6 @@ class TruckReviewsModelViewSet(viewsets.ModelViewSet):
         try:
             truck = Truck.objects.get(slug=truck_slug)
         except Truck.DoesNotExist:
-            raise NotFound('A truck with this slug does not exist.')
+            raise NotFound('A foodtruck with this slug does not exist.')
 
         return self.queryset.filter(product__truck=truck)
