@@ -82,9 +82,7 @@ def error_404(request, exception):
     response = JsonResponse(data={
         'statusCode': 404,
         'status': 'fail',
-        'data': {
-            'message': 'The requested URL was not found on this server.',
-        },
+        'message': 'The requested URL was not found on this server.',
     })
 
     return response
@@ -94,9 +92,7 @@ def error_500(request):
     response = JsonResponse(data={
         'statusCode': 500,
         'status': 'error',
-        'data': {
-            'message': 'Sorry, a technical error has occured.',
-        },
+        'message': 'Sorry, a technical error has occured.',
     })
 
     return response
