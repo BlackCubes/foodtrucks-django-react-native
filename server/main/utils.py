@@ -104,10 +104,19 @@ def error_500(request):
 
 def final_success_response(response):
     if not response.exception:
+        response_data = response.data
+
+        pagination_results = response.data.pop('results', None)
+        pagination_meta_data = response.data.pop('meta_data', None)
+
+        if pagination_results is not None and pagination_meta_data is not None:
+            response_data = pagination_results
+
         response.data = {
             'statusCode': response.status_code,
             'status': 'success',
-            'data': response.data,
+            'data': response_data,
+            'meta_data': pagination_meta_data,
         }
 
 
