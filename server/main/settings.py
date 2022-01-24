@@ -155,6 +155,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'user.backends.JWTAuthentication',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'main.pagination.CustomPageNumberPagination',
 }
 
 MEDIA_ROOT = BASE_DIR / 'media'
