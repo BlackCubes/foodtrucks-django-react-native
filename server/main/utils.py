@@ -82,9 +82,7 @@ def error_404(request, exception):
     response = JsonResponse(data={
         'statusCode': 404,
         'status': 'fail',
-        'data': {
-            'message': 'The requested URL was not found on this server.',
-        },
+        'message': 'The requested URL was not found on this server.',
     })
 
     return response
@@ -94,9 +92,7 @@ def error_500(request):
     response = JsonResponse(data={
         'statusCode': 500,
         'status': 'error',
-        'data': {
-            'message': 'Sorry, a technical error has occured.',
-        },
+        'message': 'Sorry, a technical error has occured.',
     })
 
     return response
@@ -109,6 +105,13 @@ def final_success_response(response):
             'status': 'success',
             'data': response.data,
         }
+
+        pagination_results = response.data['data'].pop('results', None)
+        pagination_meta_data = response.data['data'].pop('meta_data', None)
+
+        if pagination_results is not None and pagination_meta_data is not None:
+            response.data['data'] = pagination_results
+            response.data['meta_data'] = pagination_meta_data
 
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
