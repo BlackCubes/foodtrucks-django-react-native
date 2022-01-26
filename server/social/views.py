@@ -19,7 +19,7 @@ class EmojiListAPIView(generics.ListAPIView):
     queryset = Emoji.objects.all()
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -38,7 +38,7 @@ class EmojiDetailAPIView(generics.RetrieveAPIView):
     lookup_field = 'uuid'
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -56,7 +56,7 @@ class LikeListCreateAPIView(generics.ListCreateAPIView):
     queryset = Like.objects.all()
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -75,6 +75,6 @@ class LikeDetailAPIView(generics.RetrieveAPIView):
     lookup_field = 'uuid'
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)

@@ -28,7 +28,7 @@ class ReviewListAPIView(generics.ListAPIView):
     queryset = Review.objects.all().order_by('created_at')
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -50,7 +50,7 @@ class ReviewListCreateAPIView(generics.ListCreateAPIView):
     queryset = Review.objects.all().order_by('created_at')
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -71,6 +71,6 @@ class ReviewDetailUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'uuid'
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)

@@ -18,7 +18,7 @@ class EventListAPIView(generics.ListAPIView):
     queryset = Event.objects.all().order_by('date')
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -37,6 +37,6 @@ class EventDetailAPIView(generics.RetrieveAPIView):
     lookup_field = 'uuid'
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)

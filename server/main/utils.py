@@ -98,7 +98,7 @@ def error_500(request):
     return response
 
 
-def final_success_response(response):
+def final_success_response(request, response):
     if not response.exception:
         response.data = {
             'status_code': response.status_code,
