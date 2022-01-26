@@ -98,20 +98,27 @@ def error_500(request):
     return response
 
 
-def final_success_response(response):
+def final_success_response(request, response):
     if not response.exception:
-        response.data = {
-            'status_code': response.status_code,
-            'status': 'success',
-            'data': response.data,
-        }
+        if request.method == 'DELETE':
+            response.data = {
+                'status_code': response.status_code,
+                'status': 'success',
+            }
 
-        pagination_results = response.data['data'].pop('results', None)
-        pagination_meta_data = response.data['data'].pop('meta_data', None)
+        else:
+            response.data = {
+                'status_code': response.status_code,
+                'status': 'success',
+                'data': response.data,
+            }
 
-        if pagination_results is not None and pagination_meta_data is not None:
-            response.data['data'] = pagination_results
-            response.data['meta_data'] = pagination_meta_data
+            if 'results' in response.data['data'] and 'meta_data' in response.data['data']:
+                pagination_results = response.data['data'].pop('results')
+                pagination_meta_data = response.data['data'].pop('meta_data')
+
+                response.data['data'] = pagination_results
+                response.data['meta_data'] = pagination_meta_data
 
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):

@@ -27,7 +27,7 @@ class ChangePasswordUpdateAPIView(UpdateAPIView):
     serializer_class = ChangePasswordSerializer
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -57,7 +57,7 @@ class LoginAPIView(APIView):
     serialzer_class = LoginSerializer
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -85,7 +85,7 @@ class RegisterAPIView(APIView):
     serializer_class = RegisterSerializer
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -114,7 +114,7 @@ class UserProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     serializer_class = UserProfileSerializer
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 

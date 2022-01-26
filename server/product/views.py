@@ -25,7 +25,7 @@ class ProductListAPIView(generics.ListAPIView):
     queryset = Product.objects.all().order_by('slug')
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -44,7 +44,7 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
     lookup_field = 'slug'
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -64,7 +64,7 @@ class ProductLikesModelViewSet(viewsets.ModelViewSet):
         'product').select_related('emoji').order_by('product__slug')
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -94,7 +94,7 @@ class ProductReviewsModelViewSet(viewsets.ModelViewSet):
         'product').select_related('user').order_by('created_at')
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 

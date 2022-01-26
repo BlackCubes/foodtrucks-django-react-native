@@ -32,7 +32,7 @@ class TruckListAPIView(generics.ListAPIView):
     queryset = Truck.objects.all().order_by('name')
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -51,7 +51,7 @@ class TruckDetailAPIView(generics.RetrieveAPIView):
     lookup_field = 'slug'
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -70,7 +70,7 @@ class TruckEventsModelViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all().prefetch_related('truck').order_by('date')
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -99,7 +99,7 @@ class TruckProductsModelViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().select_related('truck').order_by('slug')
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -129,7 +129,7 @@ class TruckLikesModelViewSet(viewsets.ModelViewSet):
         'product').select_related('emoji').order_by('product__slug')
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 
@@ -159,7 +159,7 @@ class TruckReviewsModelViewSet(viewsets.ModelViewSet):
         'product').select_related('user').order_by('created_at')
 
     def finalize_response(self, request, response, *args, **kwargs):
-        final_success_response(response)
+        final_success_response(request, response)
 
         return super().finalize_response(request, response, *args, **kwargs)
 

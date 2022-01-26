@@ -23,6 +23,8 @@ type GeneralReviewResponse = Omit<SuccessResponse, 'meta_data'> & {
   data: Review;
 };
 
+type DeleteReviewResponse = Omit<SuccessResponse, 'meta_data'>;
+
 const reviewExtendedApi = coreSplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getReviews: builder.query<GetReviewsResponse, void>({
@@ -58,7 +60,7 @@ const reviewExtendedApi = coreSplitApi.injectEndpoints({
       invalidatesTags: ['Review'],
     }),
 
-    deleteReview: builder.mutation<void, string>({
+    deleteReview: builder.mutation<DeleteReviewResponse, string>({
       query: (uuid) => ({
         url: `/reviews/${uuid}`,
         method: 'DELETE',
