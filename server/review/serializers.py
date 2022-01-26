@@ -20,11 +20,24 @@ class ProductRepresentationModelSerializer(serializers.ModelSerializer):
     this field.
     """
 
+    def get_photo_url(self, image):
+        """
+        Checks to see if the `image` field is not empty, or else it won't serialize.
+
+        If it isn't empty, then it serializes it.
+        """
+        request = self.context.get('request', None)
+
+        if request is not None and image and hasattr(image, 'url'):
+            image_url = image.url
+            return request.build_absolute_uri(image_url)
+        else:
+            return None
+
     def to_representation(self, instance):
         representation = super().to_representation(instance)
 
-        # Checks to see if the `image` field is not empty, or else it won't serialize.
-        product_image = None if not instance.product.image else instance.product.image
+        product_image = self.get_photo_url(instance.product.image)
 
         representation['product'] = {
             'uuid': str(instance.product.uuid),
