@@ -62,14 +62,13 @@ class TruckImageSerializer(serializers.ModelSerializer):
 
     Lookup Field: slug.
 
-    Fields: uuid, image, is_profile_image, and truck.
+    Fields: uuid, image, and is_profile_image.
     """
-    truck = serializers.CharField(source='truck.slug')
 
     class Meta:
         model = TruckImage
         lookup_field = 'uuid'
-        fields = ('uuid', 'image', 'is_profile_image', 'truck',)
+        fields = ('uuid', 'image', 'is_profile_image',)
 
 
 class TruckSerializer(TruckProfileImageDynamicSerializer):
