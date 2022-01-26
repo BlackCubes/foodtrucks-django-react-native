@@ -1,3 +1,5 @@
+import { NestedFoodtruck } from './foodtruck';
+
 export interface Product {
   uuid: string;
   name: string;
@@ -7,7 +9,5 @@ export interface Product {
   price: number;
   quantity: number;
   is_available: boolean;
-  truck: string;
-  likes: Array<string | null>;
-  reviews: Array<string | null>;
+  truck: NestedFoodtruck;
 }
