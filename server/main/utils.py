@@ -80,7 +80,7 @@ def slug_generator(sender, instance, *args, **kwargs):
 
 def error_404(request, exception):
     response = JsonResponse(data={
-        'statusCode': 404,
+        'status_code': 404,
         'status': 'fail',
         'message': 'The requested URL was not found on this server.',
     })
@@ -90,7 +90,7 @@ def error_404(request, exception):
 
 def error_500(request):
     response = JsonResponse(data={
-        'statusCode': 500,
+        'status_code': 500,
         'status': 'error',
         'message': 'Sorry, a technical error has occured.',
     })
@@ -101,7 +101,7 @@ def error_500(request):
 def final_success_response(response):
     if not response.exception:
         response.data = {
-            'statusCode': response.status_code,
+            'status_code': response.status_code,
             'status': 'success',
             'data': response.data,
         }
