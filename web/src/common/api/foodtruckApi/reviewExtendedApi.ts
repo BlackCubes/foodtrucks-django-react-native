@@ -1,5 +1,5 @@
 import coreSplitApi from './coreSplitApi';
-import { Review } from '../../models';
+import { Review, SuccessResponse } from '../../models';
 
 type CreateReviewRequest = {
   review: string;
@@ -11,24 +11,36 @@ type UpdateReviewRequest = {
   review: string;
 };
 
+type GetReviewsResponse = SuccessResponse & {
+  data: Review[];
+};
+
+type GetReviewsFromUserResponse = SuccessResponse & {
+  data: Omit<Review, 'user'>[];
+};
+
+type GeneralReviewResponse = Omit<SuccessResponse, 'meta_data'> & {
+  data: Review;
+};
+
 const reviewExtendedApi = coreSplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    getReviews: builder.query<Review[], void>({
+    getReviews: builder.query<GetReviewsResponse, void>({
       query: () => ({ url: '/reviews' }),
       providesTags: ['Review'],
     }),
 
-    getReviewsFromUser: builder.query<Omit<Review, 'user'>[], void>({
+    getReviewsFromUser: builder.query<GetReviewsFromUserResponse, void>({
       query: () => ({ url: '/my-reviews' }),
       providesTags: ['Review'],
     }),
 
-    getReviewByUuid: builder.query<Review, string>({
+    getReviewByUuid: builder.query<GeneralReviewResponse, string>({
       query: (uuid) => ({ url: `/reviews/${uuid}` }),
       providesTags: ['Review'],
     }),
 
-    createReview: builder.mutation<Review, CreateReviewRequest>({
+    createReview: builder.mutation<GeneralReviewResponse, CreateReviewRequest>({
       query: (payload) => ({
         url: '/reviews',
         method: 'POST',
@@ -37,7 +49,7 @@ const reviewExtendedApi = coreSplitApi.injectEndpoints({
       invalidatesTags: ['Review'],
     }),
 
-    updateReview: builder.mutation<Review, UpdateReviewRequest>({
+    updateReview: builder.mutation<GeneralReviewResponse, UpdateReviewRequest>({
       query: ({ uuid, review }) => ({
         url: `/reviews/${uuid}`,
         method: 'PATCH',
