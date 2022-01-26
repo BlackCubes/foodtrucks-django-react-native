@@ -100,18 +100,25 @@ def error_500(request):
 
 def final_success_response(request, response):
     if not response.exception:
-        response.data = {
-            'status_code': response.status_code,
-            'status': 'success',
-            'data': response.data,
-        }
+        if request.method == 'DELETE':
+            response.data = {
+                'status_code': response.status_code,
+                'status': 'success',
+            }
 
-        if 'results' in response.data['data'] and 'meta_data' in response.data['data']:
-            pagination_results = response.data['data'].pop('results')
-            pagination_meta_data = response.data['data'].pop('meta_data')
+        else:
+            response.data = {
+                'status_code': response.status_code,
+                'status': 'success',
+                'data': response.data,
+            }
 
-            response.data['data'] = pagination_results
-            response.data['meta_data'] = pagination_meta_data
+            if 'results' in response.data['data'] and 'meta_data' in response.data['data']:
+                pagination_results = response.data['data'].pop('results')
+                pagination_meta_data = response.data['data'].pop('meta_data')
+
+                response.data['data'] = pagination_results
+                response.data['meta_data'] = pagination_meta_data
 
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
