@@ -1,20 +1,32 @@
 import coreSplitApi from './coreSplitApi';
-import { Session, User } from '../../models';
+import { Session, SuccessResponse, User } from '../../models';
 
 type ChangePasswordRequest = {
   old_password: string;
   old_password_confirmation: string;
   new_password: string;
 };
+
 type LoginRequest = Pick<User, 'email'> & {
   password: string;
 };
-type LoginResponse = Pick<User, 'email'> & Session;
+
 type RegisterRequest = User & {
   password: string;
   password_confirmation: string;
 };
-type UserSessionResponse = User & Session;
+
+type UserSessionResponse = Omit<SuccessResponse, 'meta_data'> & {
+  data: User & Response;
+};
+
+type LoginResponse = Omit<SuccessResponse, 'meta_data'> & {
+  data: Pick<User, 'email'> & Session;
+};
+
+type SessionResponse = Omit<SuccessResponse, 'meta_data'> & {
+  data: Session;
+};
 
 const userExtendedApi = coreSplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -48,7 +60,7 @@ const userExtendedApi = coreSplitApi.injectEndpoints({
       invalidatesTags: ['User'],
     }),
 
-    changePassword: builder.mutation<Session, ChangePasswordRequest>({
+    changePassword: builder.mutation<SessionResponse, ChangePasswordRequest>({
       query: (payload) => ({
         url: '/user/change-password',
         method: 'PATCH',

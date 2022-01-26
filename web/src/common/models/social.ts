@@ -1,3 +1,5 @@
+import { NestedProduct } from './product';
+
 export interface Emoji {
   uuid: string;
   emoji: string;
@@ -7,6 +9,6 @@ export interface Emoji {
 export interface Social {
   uuid: string;
   like: number;
-  emoji: string;
-  product: string;
+  emoji: Emoji;
+  product: Pick<NestedProduct, 'uuid' | 'name' | 'slug'>;
 }

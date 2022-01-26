@@ -1,3 +1,9 @@
+type FoodtruckImage = {
+  uuid: string;
+  image: string;
+  is_profile_image: boolean;
+};
+
 export interface Foodtruck {
   uuid: string;
   name: string;
@@ -6,7 +12,12 @@ export interface Foodtruck {
   phone_number: string;
   email: string;
   website: string;
-  images: Array<string | null>;
-  products: Array<string | null>;
-  events: Array<string | null>;
+  images: FoodtruckImage[] | [];
+}
+
+export interface NestedFoodtruck {
+  uuid: string;
+  name: string;
+  slug: string;
+  profile_image: string | null;
 }
