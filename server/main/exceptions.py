@@ -26,7 +26,7 @@ def custom_exception_handler(exc, context):
 
 def _handle_authentication_error(exc, context, response):
     response.data = {
-        'statusCode': response.status_code,
+        'status_code': response.status_code,
         'status': 'fail',
         'message': 'Please login to continue.',
     }
@@ -36,7 +36,7 @@ def _handle_authentication_error(exc, context, response):
 
 def _handle_generic_error(exc, context, response):
     response.data = {
-        'statusCode': response.status_code,
+        'status_code': response.status_code,
         'status': 'fail',
         'message': response.data['detail'],
     }
@@ -46,7 +46,7 @@ def _handle_generic_error(exc, context, response):
 
 def _handle_validation_error(exc, context, response):
     response.data = {
-        'statusCode': response.status_code,
+        'status_code': response.status_code,
         'status': 'fail',
         'message': 'Validation errors in your request.',
         'errors': response.data,
