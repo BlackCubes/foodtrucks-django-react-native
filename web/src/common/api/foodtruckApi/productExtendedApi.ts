@@ -13,12 +13,12 @@ const productExtendedApi = coreSplitApi.injectEndpoints({
       providesTags: ['Product'],
     }),
 
-    getReviewsByProductSlug: builder.query<Review[], string>({
+    getReviewsByProductSlug: builder.query<Omit<Review, 'product'>[], string>({
       query: (slug) => ({ url: `/products/${slug}/reviews` }),
       providesTags: ['Review'],
     }),
 
-    getSocialsByProductSlug: builder.query<Social[], string>({
+    getSocialsByProductSlug: builder.query<Omit<Social, 'product'>[], string>({
       query: (slug) => ({ url: `/products/${slug}/socials` }),
       providesTags: ['Social'],
     }),

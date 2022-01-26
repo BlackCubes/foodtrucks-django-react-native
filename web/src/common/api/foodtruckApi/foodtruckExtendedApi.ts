@@ -1,5 +1,5 @@
 import coreSplitApi from './coreSplitApi';
-import { Foodtruck, Product, Review, Social } from '../../models';
+import { Event, Foodtruck, Product, Review, Social } from '../../models';
 
 const foodtruckExtendedApi = coreSplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -13,10 +13,16 @@ const foodtruckExtendedApi = coreSplitApi.injectEndpoints({
       providesTags: ['Foodtruck'],
     }),
 
-    getProductsByFoodtruckSlug: builder.query<Product[], string>({
-      query: (slug) => ({ url: `/foodtrucks/${slug}/products` }),
-      providesTags: ['Product'],
+    getEventsByFoodtruckSlug: builder.query<Omit<Event, 'truck'>[], string>({
+      query: (slug) => ({ url: `/foodtrucks/${slug}/events` }),
     }),
+
+    getProductsByFoodtruckSlug: builder.query<Omit<Product, 'truck'>[], string>(
+      {
+        query: (slug) => ({ url: `/foodtrucks/${slug}/products` }),
+        providesTags: ['Product'],
+      }
+    ),
 
     getReviewsByFoodtruckSlug: builder.query<Review[], string>({
       query: (slug) => ({ url: `/foodtrucks/${slug}/reviews` }),
@@ -33,6 +39,7 @@ const foodtruckExtendedApi = coreSplitApi.injectEndpoints({
 });
 
 export const {
+  useGetEventsByFoodtruckSlugQuery,
   useGetFoodtruckBySlugQuery,
   useGetFoodtrucksQuery,
   useGetProductsByFoodtruckSlugQuery,
