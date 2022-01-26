@@ -106,10 +106,10 @@ def final_success_response(response):
             'data': response.data,
         }
 
-        pagination_results = response.data['data'].pop('results', None)
-        pagination_meta_data = response.data['data'].pop('meta_data', None)
+        if 'results' in response.data['data'] and 'meta_data' in response.data['data']:
+            pagination_results = response.data['data'].pop('results')
+            pagination_meta_data = response.data['data'].pop('meta_data')
 
-        if pagination_results is not None and pagination_meta_data is not None:
             response.data['data'] = pagination_results
             response.data['meta_data'] = pagination_meta_data
 
