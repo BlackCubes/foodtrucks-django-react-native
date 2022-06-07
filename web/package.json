@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "cd ../ && husky install ./web/.husky"
   },
   "dependencies": {
     "next": "12.1.6",
